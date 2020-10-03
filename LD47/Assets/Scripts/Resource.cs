@@ -7,7 +7,6 @@ using UnityEngine;
 public class Resource : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private SpriteRenderer spriteRenderer2;
     [SerializeField] private Sprite _sprite;
     public int value = 1;
     [SerializeField] private Sprite[] SpriteArr;
