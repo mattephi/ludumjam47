@@ -33,5 +33,9 @@ public class Cell : MonoBehaviour
         return (NeighborCells.TryGetValue(direction, out neighbourcell) && !ReferenceEquals(neighbourcell, null));
     }
     
+    public bool IsAvailable(Character.Direction direction)
+    {
+        return NeighborCells[direction].MyState == State.Free;
+    }
     
 }
