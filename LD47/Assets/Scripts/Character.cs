@@ -32,10 +32,12 @@ public class Character : MonoBehaviour
         Waiting
     }
 
+    public State Mystate;
+    
     public Cell nextCell;
     public Cell curCell;
 
-    public bool immortal;
+    public bool Immortal;
     #endregion
     
     
