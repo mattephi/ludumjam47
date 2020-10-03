@@ -11,7 +11,6 @@ public class Cell : MonoBehaviour
     [SerializeField] private SpriteRenderer UpperspriteRenderer; 
 
     public Dictionary<Character.Direction, Cell> NeighborCells;
-    
     public enum State
     {
         Resource,
