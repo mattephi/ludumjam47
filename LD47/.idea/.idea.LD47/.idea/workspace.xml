@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="3d7dd3f0-8fd7-4abf-badd-fe0f7109eba9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.LD47/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LD47/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Cell.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Cell.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Character.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -20,8 +19,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Assets/Scripts/Character.cs" />
         <option value="$PROJECT_DIR$/Assets/Scripts/Cell.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Bonus.cs" />
+        <option value="$PROJECT_DIR$/Assets/Scripts/Character.cs" />
       </list>
     </option>
   </component>
@@ -66,6 +66,7 @@
       <option name="presentableId" value="Default" />
       <updated>1601725061048</updated>
       <workItem from="1601725082304" duration="4964000" />
+      <workItem from="1601735807354" duration="1421000" />
     </task>
     <servers />
   </component>
@@ -78,9 +79,10 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="623" y="259" key="search.everywhere.popup" timestamp="1601725482988">
-      <screen x="0" y="27" width="1920" height="1053" />
+    <state x="545" y="231" width="672" height="678" key="search.everywhere.popup" timestamp="1601737196668">
+      <screen x="0" y="25" width="1680" height="934" />
     </state>
+    <state x="545" y="231" width="672" height="678" key="search.everywhere.popup/0.25.1680.934@0.25.1680.934" timestamp="1601737196668" />
     <state x="623" y="259" key="search.everywhere.popup/0.27.1920.1053@0.27.1920.1053" timestamp="1601725482988" />
   </component>
 </project>
