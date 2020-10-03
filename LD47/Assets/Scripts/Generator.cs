@@ -43,8 +43,7 @@ public class Generator : MonoBehaviour
                 CellMatrix[rows + 1, j].MyState = Cell.State.Surface;
             }
         }
-        SpawnChar();
-    }
+        //SpawnChar();
 
         for (int i_1 = 0; i_1 < rows + 2; i_1++) // writing nighbours for each cell
             for (int i_2 = 0; i_2 < columns; i_2++)
