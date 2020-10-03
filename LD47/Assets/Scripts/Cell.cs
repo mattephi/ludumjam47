@@ -5,28 +5,50 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    #region Initialization
     public Dictionary<Character.Direction, Cell> NeighborCells;
     
     public enum State
     {
-        Free,
+        Resource,
+        Surface,
+        Bonus,
+        //Obstacle,
         Transition,
-        Lava
+        Deadly
     }
     public State MyState;
+
+    [SerializeField] private float MaxCellHp = 100f;
+    private const float minCellHp = 0f;
+    private float curHp;
     
-    public enum ObjectType
+    public Bonus MyBonus;
+    public Resource MyResource;
+
+    #endregion
+    private void OnEnable()
     {
-        None,
-        Bonus,
-        Character,
-        Resource,
-        Obstacle 
+        switch (MyState)
+        {
+            case State.Bonus:
+            case State.Surface:
+                curHp = MaxCellHp;
+                break;
+            case State.Resource:
+                curHp = MyResource.value * MaxCellHp;
+                break;
+            default:
+                curHp = MaxCellHp;
+                break;
+        }
     }
-    public ObjectType MyObjectType;
 
-    public GameObject MyObject;
-
+    public void GetDamage(Character character)
+    {
+        character.cu
+    }
+    
     public bool IsExist(Character.Direction direction)
     {
         Cell neighbourcell;
@@ -35,7 +57,9 @@ public class Cell : MonoBehaviour
     
     public bool IsAvailable(Character.Direction direction)
     {
-        return NeighborCells[direction].MyState == State.Free;
+        return NeighborCells[direction].MyState != State.Deadly;
     }
+    
+    
     
 }
