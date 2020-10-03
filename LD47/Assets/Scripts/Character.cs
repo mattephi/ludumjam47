@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    sw#region Initialization
+    #region Initialization
     public float MinMovingSpeed
     {
         get { return _minMiningSpeed; }

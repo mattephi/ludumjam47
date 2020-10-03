@@ -20,8 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc85d152-8647-4945-98bd-ee17bc1f0b14" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Bonus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Bonus.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Character.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Scripts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Scripts.dir/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,8 +37,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Bonus.cs" />
         <option value="$PROJECT_DIR$/Character.cs" />
+        <option value="$PROJECT_DIR$/Bonus.cs" />
       </list>
     </option>
   </component>
@@ -63,7 +62,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601725832415</updated>
-      <workItem from="1601725838571" duration="2727000" />
+      <workItem from="1601725838571" duration="2848000" />
     </task>
     <servers />
   </component>
