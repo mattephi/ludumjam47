@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
+    public Sprite[] borderSprites;
     public enum Direction
     {
         UpLeft,
@@ -20,9 +21,6 @@ public class Cell : MonoBehaviour
     };
 
     #region Initialization
-    [SerializeField] private SpriteRenderer LowerspriteRenderer; 
-    [SerializeField] private SpriteRenderer UpperspriteRenderer;
-
     public Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
     
     public enum State
@@ -97,18 +95,23 @@ public class Cell : MonoBehaviour
         return NeighborCells[direction].MyState != State.Deadly;
     }
 
-    /*
+    
     void OnMouseDown() // Debug purposes
     {
-        UnityEngine.Debug.Log(NeighborCells);
-        Direction i_it = Direction.UpLeft;
-        if (curHp > 0)
-            curHp = 0f;
-        else
+        int i_identifier = 0;
+        int i_magnitude = 0;
+        foreach (KeyValuePair<Direction,Cell> item in NeighborCells)
         {
-            Destroy(NeighborCells[i_it].gameObject);
-            i_it = i_it.Next();
+            UnityEngine.Debug.Log(item.Value.MyState);
+            if (item.Value.MyState == State.Deadly)
+                i_identifier += 1 << i_magnitude;
+            i_magnitude++;
         }
+        UnityEngine.Debug.Log(i_identifier);
+        MyState = State.Deadly;
+        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+    
+        
+    
     }
-    */
 }

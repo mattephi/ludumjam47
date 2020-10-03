@@ -203,8 +203,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff14eebbc38dfcec88f620efaeaab1d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LowerspriteRenderer: {fileID: 4075463274846700193}
-  UpperspriteRenderer: {fileID: 5939950189975420127}
+  borderSprites:
+  - {fileID: 21300000, guid: d0fe341e00c4d7141affdbfb7f652e6b, type: 3}
+  - {fileID: 21300000, guid: dcda4dd9516d520419d8523bde7ddf01, type: 3}
+  - {fileID: 21300000, guid: c1956bb94b76e6a4aaefe0896caed75a, type: 3}
+  - {fileID: 21300000, guid: b0f3bfe9b77581e4e98a8035b9088241, type: 3}
+  - {fileID: 21300000, guid: 915e3709519dd05459a7dc1f8b76a512, type: 3}
+  - {fileID: 21300000, guid: 7f9527e6ec1dc7544bc285bd1d749970, type: 3}
+  - {fileID: 21300000, guid: 46dbbec95cbef654d8a2117092fd81eb, type: 3}
+  - {fileID: 21300000, guid: e76ad5171daa88743a656be72b6ae577, type: 3}
+  - {fileID: 21300000, guid: 5bbf178bf2a45f343bc4e165f9a6d129, type: 3}
+  - {fileID: 21300000, guid: 8770ed5aa22e5ff469e81dc4112126d5, type: 3}
+  - {fileID: 21300000, guid: 661714bd4651ca343893b59284404de8, type: 3}
+  - {fileID: 21300000, guid: facc26df56a3ed04fb90a8db577f5d74, type: 3}
+  - {fileID: 21300000, guid: ebaec5377e69dd34c93411c927b32f69, type: 3}
+  - {fileID: 21300000, guid: 9f87fe8e55cd60144a5b898529b3d904, type: 3}
+  - {fileID: 21300000, guid: 7bebb199414d6094da291198e32eff56, type: 3}
+  - {fileID: 21300000, guid: 80b7e5a840e508a47831a80d1a3bdb96, type: 3}
   MyState: 1
   MaxCellHp: 100
   MyBonus: {fileID: 0}
