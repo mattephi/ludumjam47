@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float _minMiningSpeed;
     [SerializeField] private float movingSpeed = 2.0f;
 
-    public float CurMiningDamage;
+    public float CurDamage;
     
     public enum Direction {
         Up,
