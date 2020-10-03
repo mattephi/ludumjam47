@@ -46,19 +46,29 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character)
     {
-        //character.CurDamage
+        if (curHp - character.CurDamage > 0)
+        {
+            curHp -= character.CurDamage;
+        }
+        else
+        {
+            curHp = 0f;
+            MyState = State.Transition;
+        }
     }
     
     public bool IsExist(Character.Direction direction)
     {
-        Cell neighbourcell;
-        return (NeighborCells.TryGetValue(direction, out neighbourcell) && !ReferenceEquals(neighbourcell, null));
+        Cell neighborcell;
+        return (NeighborCells.TryGetValue(direction, out neighborcell) && !ReferenceEquals(neighborcell, null));
     }
     
     public bool IsAvailable(Character.Direction direction)
     {
         return NeighborCells[direction].MyState != State.Deadly;
     }
+    
+    
     
     
     
