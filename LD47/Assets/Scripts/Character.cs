@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Character : MonoBehaviour
 {
-    #region Initialization
+    sw#region Initialization
     public float MinMovingSpeed
     {
         get { return _minMiningSpeed; }
@@ -35,7 +35,7 @@ public class Character : MonoBehaviour
     public Cell nextCell;
     public Cell curCell;
 
-    public bool immortal;
+    public bool Immortal;
     #endregion
     
     
