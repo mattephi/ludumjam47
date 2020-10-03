@@ -23,7 +23,7 @@ public class Character : MonoBehaviour
         Left,
         Right
     };
-    public Direction MyDirection;
+    public Cell.Direction MyDirection;
     public Direction BaseDirection;
     public enum State
     {
