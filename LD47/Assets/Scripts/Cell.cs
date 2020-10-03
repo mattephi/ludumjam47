@@ -46,7 +46,7 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character)
     {
-        character.cu
+        //character.CurDamage
     }
     
     public bool IsExist(Character.Direction direction)

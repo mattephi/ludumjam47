@@ -22,7 +22,7 @@ public class Bonus : MonoBehaviour
         float miningModifier = defaultMiningModifier, 
         float timingModifier = defaultMiningTimingModifier)
     {
-        character.CurMiningDamage *= miningModifier;
+        character.CurDamage *= miningModifier;
         StartCoroutine(DisableDamageBonus(character, miningModifier, timingModifier));
     }
 
@@ -32,7 +32,7 @@ public class Bonus : MonoBehaviour
         float timingModifier = defaultMiningTimingModifier)
     {
         yield return new WaitForSeconds(timingModifier);
-        character.CurMiningDamage /= miningModifier;
+        character.CurDamage /= miningModifier;
     }
     
     void EnableImmortality(
