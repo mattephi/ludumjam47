@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 
 public class Cell : MonoBehaviour
@@ -53,6 +54,16 @@ public class Cell : MonoBehaviour
         else
         {
             curHp = 0f;
+            switch (MyState)
+            {
+                //break / return to the player
+                case State.Bonus:
+                    break;
+                case State.Surface:
+                    break;
+                case State.Resource:
+                    break;
+            }
             MyState = State.Transition;
         }
     }
@@ -67,9 +78,5 @@ public class Cell : MonoBehaviour
     {
         return NeighborCells[direction].MyState != State.Deadly;
     }
-    
-    
-    
-    
     
 }
