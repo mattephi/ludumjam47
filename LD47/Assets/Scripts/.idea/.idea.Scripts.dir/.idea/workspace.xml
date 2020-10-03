@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="BranchesTreeState">
     <expand>
       <path>
@@ -21,6 +24,8 @@
   <component name="ChangeListManager">
     <list default="true" id="cc85d152-8647-4945-98bd-ee17bc1f0b14" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Scripts.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Scripts.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bonus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Bonus.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Character.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Character.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,14 +36,15 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Cell.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Bonus.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Character.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Character.cs" />
         <option value="$PROJECT_DIR$/Bonus.cs" />
+        <option value="$PROJECT_DIR$/Character.cs" />
       </list>
     </option>
   </component>
@@ -62,7 +68,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1601725832415</updated>
-      <workItem from="1601725838571" duration="2848000" />
+      <workItem from="1601725838571" duration="7486000" />
     </task>
     <servers />
   </component>
@@ -90,5 +96,13 @@
       <screen x="0" y="25" width="1680" height="934" />
     </state>
     <state x="463" y="120" key="SettingsEditor/0.25.1680.934@0.25.1680.934" timestamp="1601726994758" />
+    <state x="480" y="164" width="1200" height="694" key="VCS.FileHistoryDialog" timestamp="1601730735023">
+      <screen x="0" y="25" width="1680" height="934" />
+    </state>
+    <state x="480" y="164" width="1200" height="694" key="VCS.FileHistoryDialog/0.25.1680.934@0.25.1680.934" timestamp="1601730735023" />
+    <state x="503" y="227" width="672" height="678" key="search.everywhere.popup" timestamp="1601734407545">
+      <screen x="0" y="25" width="1680" height="934" />
+    </state>
+    <state x="503" y="227" width="672" height="678" key="search.everywhere.popup/0.25.1680.934@0.25.1680.934" timestamp="1601734407545" />
   </component>
 </project>

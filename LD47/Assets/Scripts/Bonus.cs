@@ -4,35 +4,35 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
-    private const float defaultMiningModifier = 1.5f;
+    [SerializeField] private const float defaultMiningModifier = 1.5f;
 
-    private const float defaultMiningTimingModifier = 5.0f;
+    [SerializeField] private const float defaultMiningTimingModifier = 5.0f;
     
-    private const float defaultImmortalityTimingModifier = 5.0f;
+    [SerializeField] private const float defaultImmortalityTimingModifier = 5.0f;
 
-    private const bool defaultImmortalityModifier = true;
+    [SerializeField] private const bool  defaultImmortalityModifier = true;
     // Start is called before the first frame update
     void Start() {}
 
     // Update is called once per frame
     void Update() {}
 
-    void EnableSpeedBonus(
+    void EnableDamageBonus(
         Character character, 
         float miningModifier = defaultMiningModifier, 
         float timingModifier = defaultMiningTimingModifier)
     {
-        character.CurMiningSpeed *= miningModifier;
-        StartCoroutine(DisableSpeedBonus(character, miningModifier, timingModifier));
+        character.CurMiningDamage *= miningModifier;
+        StartCoroutine(DisableDamageBonus(character, miningModifier, timingModifier));
     }
 
-    IEnumerator DisableSpeedBonus(
+    IEnumerator DisableDamageBonus(
         Character character,
         float miningModifier = defaultMiningModifier,
         float timingModifier = defaultMiningTimingModifier)
     {
         yield return new WaitForSeconds(timingModifier);
-        character.CurMiningSpeed /= miningModifier;
+        character.CurMiningDamage /= miningModifier;
     }
     
     void EnableImmortality(
