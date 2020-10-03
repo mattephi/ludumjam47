@@ -16,6 +16,7 @@ public class Cell : MonoBehaviour
         Bonus,
         //Obstacle,
         Transition,
+        StartingPoint,
         Deadly
     }
     public State MyState;

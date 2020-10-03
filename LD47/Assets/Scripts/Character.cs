@@ -49,10 +49,9 @@ public class Character : MonoBehaviour
     void validateAndMoveToNextCell()
     {
         if (!curCell.IsExist(MyDirection) || !curCell.IsAvailable(MyDirection))
-        {
-            // TODO: DIE
-        }
-
+            Die();
+        
+        curCell.MyState = Cell.State.Deadly;
         curCell = curCell.NeighborCells[MyDirection];
     }
 
@@ -93,5 +92,10 @@ public class Character : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void Die()
+    {
+        Destroy(this);
     }
 }
