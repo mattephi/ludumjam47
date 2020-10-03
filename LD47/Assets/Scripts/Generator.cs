@@ -43,6 +43,7 @@ public class Generator : MonoBehaviour
                 CellMatrix[rows + 1, j].MyState = Cell.State.Surface;
             }
         }
+        SpawnChar();
     }
 
     void SpawnChar()
@@ -58,5 +59,4 @@ public class Generator : MonoBehaviour
         Characters[1].BaseDirection = Character.Direction.Down;
         Characters[1].MyDirection = Character.Direction.Down;
     }
-
 }
