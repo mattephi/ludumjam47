@@ -34,7 +34,6 @@ public class Character : MonoBehaviour
 
     public State Mystate;
     
-    public Cell nextCell;
     public Cell curCell;
 
     public bool Immortal;
@@ -47,8 +46,24 @@ public class Character : MonoBehaviour
         
     }
 
+    void validateAndMoveToNextCell()
+    {
+        if (!curCell.IsExist(MyDirection) || !curCell.IsAvailable(MyDirection))
+        {
+            // TODO: DIE
+        }
+
+        curCell = curCell.NeighborCells[MyDirection];
+    }
+
     void Mine()
     {
+        validateAndMoveToNextCell();
+        while (curCell.MyState != Cell.State.Transition)
+        {
+            curCell.GetDamage(this);
+        }
+
         // Start mining.
         Mystate = State.Moving;
         Move();
@@ -56,8 +71,7 @@ public class Character : MonoBehaviour
     
     void Move()
     {
-        nextCell = curCell.NeighborCells[MyDirection];
-        transform.Translate(nextCell.gameObject.transform.position * Time.deltaTime);
+        transform.Translate(curCell.gameObject.transform.position * Time.deltaTime);
         Mystate = State.Waiting;
     }
 
