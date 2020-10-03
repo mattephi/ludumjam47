@@ -75,11 +75,11 @@ public class Generator : MonoBehaviour
         int pointA = UnityEngine.Random.Range(0, columns), pointB = UnityEngine.Random.Range(0, columns);
         Vector3 spawnA = new Vector3(pointA *cellSize, 0,0), spawnB = new Vector3(pointB *cellSize, -cellSize * (rows + 1),0) ; 
         Characters[0] = Instantiate(CharacterPrefab,spawnA , Quaternion.identity).GetComponent<Character>();
-        Characters[0].BaseDirection = Character.Direction.Down;
-        Characters[0].MyDirection = Character.Direction.Down;
+        Characters[0].BaseDirection = Cell.Direction.Down;
+        Characters[0].MyDirection = Cell.Direction.Down;
         
         Characters[1] = Instantiate(CharacterPrefab,spawnB , Quaternion.identity).GetComponent<Character>();
-        Characters[1].BaseDirection = Character.Direction.Down;
-        Characters[1].MyDirection = Character.Direction.Down;
+        Characters[1].BaseDirection = Cell.Direction.Down;
+        Characters[1].MyDirection = Cell.Direction.Down;
     }
 }

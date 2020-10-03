@@ -18,14 +18,8 @@ public class Character : MonoBehaviour
 
     public float CurDamage;
     
-    public enum Direction {
-        Up,
-        Down,
-        Left,
-        Right
-    };
-    public Direction MyDirection;
-    public Direction BaseDirection;
+    public Cell.Direction MyDirection;
+    public Cell.Direction BaseDirection;
     public enum State
     {
         Moving,
@@ -58,23 +52,23 @@ public class Character : MonoBehaviour
         if (curCell.MyState == Cell.State.StartingPoint)
         {
             //change the BaseDirection
-            if (MyDirection == Direction.Up)
+            if (MyDirection == Cell.Direction.Up)
             {
-                BaseDirection = Direction.Down;
+                BaseDirection = Cell.Direction.Down;
             }
-            else if (MyDirection == Direction.Down)
+            else if (MyDirection == Cell.Direction.Down)
             {
-                BaseDirection = Direction.Down;
+                BaseDirection = Cell.Direction.Down;
             }
             
             //turn back from borders
-            if (!curCell.IsExist(Direction.Left))
+            if (!curCell.IsExist(Cell.Direction.Left))
             {
-                MyDirection = Direction.Right;
+                MyDirection = Cell.Direction.Right;
             }
-            else if (!curCell.IsExist(Direction.Right))
+            else if (!curCell.IsExist(Cell.Direction.Right))
             {
-                MyDirection = Direction.Left;
+                MyDirection = Cell.Direction.Left;
             }
         }//if it's not a starting point
         else

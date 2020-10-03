@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    [SerializeField]private GlobalController globalController;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,36 +15,48 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
-        {    
-            print("Works W");
+        {
+            if (globalController.char1.BaseDirection == Cell.Direction.Up)
+            {
+                globalController.char1.MyDirection = Cell.Direction.Up;
+            }
         }
         if (Input.GetKeyDown(KeyCode.A))
         {    
-            
+            globalController.char1.MyDirection = Cell.Direction.Left;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {    
-            
+            if (globalController.char1.BaseDirection == Cell.Direction.Down)
+            {
+                globalController.char1.MyDirection = Cell.Direction.Down;
+            }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {    
-            
+            globalController.char1.MyDirection = Cell.Direction.Right;
         }
         if (Input.GetKeyDown(KeyCode.UpArrow))
         {    
-            
+            if (globalController.char1.BaseDirection == Cell.Direction.Up)
+            {
+                globalController.char1.MyDirection = Cell.Direction.Up;
+            }
         }
         if (Input.GetKeyDown(KeyCode.DownArrow))
         {    
-            
+            if (globalController.char1.BaseDirection == Cell.Direction.Down)
+            {
+                globalController.char1.MyDirection = Cell.Direction.Down;
+            }
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {    
-            
+            globalController.char1.MyDirection = Cell.Direction.Left;
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {    
-            print("Works ->");
+            globalController.char1.MyDirection = Cell.Direction.Right;
         }
     }
 }
