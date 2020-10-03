@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour
 
     private void OnEnable()
     {
-        
+        CellMatrix = new Cell[rows + 2, collums];
+        for()
     }
 }
