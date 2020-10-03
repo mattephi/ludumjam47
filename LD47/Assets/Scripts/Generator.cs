@@ -39,8 +39,8 @@ public class Generator : MonoBehaviour
             for (int j = 0; j < columns; j++)
             {
                 Vector3 spawnPoint = new Vector3(j *cellSize, -i*cellSize,0); 
-                CellMatrix[rows + 1, j] = Instantiate(CellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
-                CellMatrix[rows + 1, j].MyState = Cell.State.Surface;
+                CellMatrix[i, j] = Instantiate(CellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
+                CellMatrix[i, j].MyState = Cell.State.Surface;
             }
         }
         //SpawnChar();
