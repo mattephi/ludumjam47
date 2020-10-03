@@ -12,9 +12,9 @@ public class Character : MonoBehaviour
         private set { _minMiningSpeed = value; }
     }
     [SerializeField] private float _minMiningSpeed;
-    [SerializeField] private float movingSpeed = 2f;
+    [SerializeField] private float movingSpeed = 2.0f;
 
-    public float CurMiningSpeed;
+    public float CurMiningDamage;
     
     public enum Direction {
         Up,
@@ -47,9 +47,37 @@ public class Character : MonoBehaviour
         
     }
 
+    void Mine()
+    {
+        // Start mining.
+        Mystate = State.Moving;
+        Move();
+    }
+    
+    void Move()
+    {
+        nextCell = curCell.NeighborCells[MyDirection];
+        transform.Translate(nextCell.gameObject.transform.position * Time.deltaTime);
+        Mystate = State.Waiting;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        
+        switch (Mystate)
+        {
+            case State.Moving:
+                break;
+            case State.Starting:
+                break;
+            case State.Mining:
+                break;
+            case State.Waiting:
+                Mystate = State.Mining;
+                Mine();
+                break;
+            default:
+                break;
+        }
     }
 }
