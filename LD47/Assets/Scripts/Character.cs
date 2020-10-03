@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = System.Random;
 
 public class Character : MonoBehaviour
 {
@@ -23,7 +24,7 @@ public class Character : MonoBehaviour
         Left,
         Right
     };
-    public Cell.Direction MyDirection;
+    public Direction MyDirection;
     public Direction BaseDirection;
     public enum State
     {
@@ -50,16 +51,44 @@ public class Character : MonoBehaviour
     void validateAndMoveToNextCell()
     {
         if (!curCell.IsExist(MyDirection) || !curCell.IsAvailable(MyDirection))
+        {
             Die();
+        }
         
-        curCell.MyState = Cell.State.Deadly;
+        if (curCell.MyState == Cell.State.StartingPoint)
+        {
+            //change the BaseDirection
+            if (MyDirection == Direction.Up)
+            {
+                BaseDirection = Direction.Down;
+            }
+            else if (MyDirection == Direction.Down)
+            {
+                BaseDirection = Direction.Down;
+            }
+            
+            //turn back from borders
+            if (!curCell.IsExist(Direction.Left))
+            {
+                MyDirection = Direction.Right;
+            }
+            else if (!curCell.IsExist(Direction.Right))
+            {
+                MyDirection = Direction.Left;
+            }
+        }//if it's not a starting point
+        else
+        {
+            curCell.MyState = Cell.State.Deadly;
+        }
+        
         curCell = curCell.NeighborCells[MyDirection];
     }
 
     void Mine()
     {
         validateAndMoveToNextCell();
-        while (curCell.MyState != Cell.State.Transition)
+        while (curCell.MyState != Cell.State.Transition && curCell.MyState != Cell.State.StartingPoint)
         {
             curCell.GetDamage(this);
         }

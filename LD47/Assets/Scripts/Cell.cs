@@ -84,13 +84,13 @@ public class Cell : MonoBehaviour
         }
     }
     
-    public bool IsExist(Direction direction)
+    public bool IsExist(Character.Direction direction)
     {
         Cell neighborcell;
         return (NeighborCells.TryGetValue(direction, out neighborcell) && !ReferenceEquals(neighborcell, null));
     }
     
-    public bool IsAvailable(Direction direction)
+    public bool IsAvailable(Character.Direction direction)
     {
         return NeighborCells[direction].MyState != State.Deadly;
     }
