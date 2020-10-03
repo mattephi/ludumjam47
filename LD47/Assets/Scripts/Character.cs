@@ -6,6 +6,7 @@ using UnityEngine;
 public class Character : MonoBehaviour
 {
     #region Initialization
+    [SerializeField] private SpriteRenderer spriteRenderer;
     public float MinMovingSpeed
     {
         get { return _minMiningSpeed; }

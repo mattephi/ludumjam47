@@ -7,6 +7,9 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
     #region Initialization
+    [SerializeField] private SpriteRenderer LowerspriteRenderer; 
+    [SerializeField] private SpriteRenderer UpperspriteRenderer; 
+
     public Dictionary<Character.Direction, Cell> NeighborCells;
     
     public enum State
@@ -29,6 +32,7 @@ public class Cell : MonoBehaviour
     public Resource MyResource;
 
     #endregion
+    
     private void OnEnable()
     {
         switch (MyState)
