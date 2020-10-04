@@ -95,18 +95,15 @@ public class Character : MonoBehaviour
                     myDirection = Cell.Direction.Right;
                 }
             }
-            if (!newCell.IsExist(Cell.Direction.Up) && baseDirection != Cell.Direction.Down)
+            if (!newCell.IsExist(Cell.Direction.Up) && baseDirection == Cell.Direction.Up)
             {
                 baseDirection = Cell.Direction.Down;
                 this.transform.Rotate(new Vector3(0, 0, 1), 180);
             }
-            else
+            if (!newCell.IsExist(Cell.Direction.Down) && baseDirection == Cell.Direction.Down)
             {
-                if (myDirection != Cell.Direction.Up)
-                {
-                    baseDirection = Cell.Direction.Up;
-                    this.transform.Rotate(new Vector3(0, 0, 1), 180);
-                }
+                baseDirection = Cell.Direction.Up;
+                this.transform.Rotate(new Vector3(0, 0, 1), 180);
             }
 
             if (!newCell.IsExist(Cell.Direction.Right))
