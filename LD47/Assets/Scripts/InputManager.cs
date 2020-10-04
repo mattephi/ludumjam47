@@ -22,16 +22,13 @@ public class InputManager : MonoBehaviour
             {       
                 if (globalController.char1.baseDirection == Cell.Direction.Up)
                 {
-                    print(globalController.char1.myDirection);
                     globalController.char1.myDirection = Cell.Direction.Up;
-                    print(globalController.char1.myDirection);
                 }
             }
             if (Input.GetKeyDown(KeyCode.A))
             {    
-                print(globalController.char1.myDirection);
+                globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char1.myDirection = Cell.Direction.Left;
-                print(globalController.char1.myDirection);
             }
             if (Input.GetKeyDown(KeyCode.S))
             {    
@@ -42,6 +39,7 @@ public class InputManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.D))
             {    
+                globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char1.myDirection = Cell.Direction.Right;
             }
         }
@@ -64,10 +62,12 @@ public class InputManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {    
+                globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char2.myDirection = Cell.Direction.Left;
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {    
+                globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char2.myDirection = Cell.Direction.Right;
             }
         }
