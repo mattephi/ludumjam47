@@ -87,6 +87,4 @@ public class Bonus : MonoBehaviour
         // TODO: Write controlling class
         // Which will perform these changes.
     }
-
-    
 }
