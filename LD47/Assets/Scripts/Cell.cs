@@ -8,7 +8,7 @@ public class Cell : MonoBehaviour
 {
     #region Initialization
     public Sprite[] borderSprites;
-    public Dictionary<State, Sprite> StateSprites = new Dictionary<State, Sprite>();
+    private Dictionary<State, Sprite> _stateSprites = new Dictionary<State, Sprite>();
 
     [SerializeField] private Sprite surfaceSprite;
     [SerializeField] private Sprite transitionSprite;
@@ -39,7 +39,7 @@ public class Cell : MonoBehaviour
         StartingPoint,
         Deadly
     }
-    public State MyState;
+    public State myState;
 
     [SerializeField] private float maxCellHp = 100f;
     private const float MINCellHp = 0f;
@@ -49,41 +49,41 @@ public class Cell : MonoBehaviour
     public Resource myResource;
     public Cell(State myState)
     {
-        initDict();
-        MyState = myState;
+        InitDict();
+        this.myState = myState;
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
-        mainSpriteRenderer.sprite = StateSprites[MyState];
+        mainSpriteRenderer.sprite = _stateSprites[this.myState];
     }
     
     public Cell(State myState, Bonus myBonus)
     {
-        initDict();
+        InitDict();
         this.myBonus = myBonus;
-        MyState = myState;
+        this.myState = myState;
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
-        mainSpriteRenderer.sprite = StateSprites[MyState];
+        mainSpriteRenderer.sprite = _stateSprites[this.myState];
     }
     
     public Cell(State myState, Resource myResource)
     {
-        initDict();
+        InitDict();
         this.myResource = myResource;
-        MyState = myState;
+        this.myState = myState;
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
-        mainSpriteRenderer.sprite = StateSprites[MyState];
+        mainSpriteRenderer.sprite = _stateSprites[this.myState];
     }
 
-    void initDict()
+    void InitDict()
     {
-        StateSprites[State.Surface] = surfaceSprite;
-        StateSprites[State.Transition] = transitionSprite;
-        StateSprites[State.Deadly] = deadlySprite;
+        _stateSprites[State.Surface] = surfaceSprite;
+        _stateSprites[State.Transition] = transitionSprite;
+        _stateSprites[State.Deadly] = deadlySprite;
     }
     #endregion
 
     private void OnEnable()
     {
-        switch (MyState)
+        switch (myState)
         {
             case State.Bonus:
             case State.Surface:
@@ -100,29 +100,28 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character)
     {
-        if (_curHp - character.CurDamage > 0)
+        if (_curHp - character.curDamage > 0)
         {
-            _curHp -= character.CurDamage;
+            _curHp -= character.curDamage;
         }
         else
         {
             _curHp = 0f;
-            die();
+            Die();
         }
     }
 
     public bool IsExist(Direction direction)
     {
-        Cell neighborcell;
-        return (NeighborCells.TryGetValue(direction, out neighborcell) && !ReferenceEquals(neighborcell, null));
+        return (NeighborCells.TryGetValue(direction, out var neighborcell) && !ReferenceEquals(neighborcell, null));
     }
 
     public bool IsAvailable(Direction direction)
     {
-        return NeighborCells[direction].MyState != State.Deadly;
+        return NeighborCells[direction].myState != State.Deadly;
     }
 
-    public int getNeighbourIndex(Direction direct)
+    private int getNeighbourIndex(Direction direct)
     {
         switch (direct)
         {
@@ -140,27 +139,27 @@ public class Cell : MonoBehaviour
         }
     }
 
-    void drawBorders()
+    void DrawBorders()
     {
-        int i_identifier = 0;
+        int iIdentifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.MyState);
-            if (item.Value.MyState == State.Deadly || item.Value.MyState == State.Transition)
-                i_identifier += 1 << getNeighbourIndex(item.Key);
+            UnityEngine.Debug.Log(item.Value.myState);
+            if (item.Value.myState == State.Deadly || item.Value.myState == State.Transition)
+                iIdentifier += 1 << getNeighbourIndex(item.Key);
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        UnityEngine.Debug.Log(i_identifier);
+        UnityEngine.Debug.Log(iIdentifier);
 
         #region drawing broders
         //if (i_identifier ~ 0b_1000_0011 == 0b_10000000)
         #endregion 
     }
 
-    void die() // Debug purposes
+    void Die() // Debug purposes
     {
-        drawBorders();
-        switch (MyState)
+        DrawBorders();
+        switch (myState)
         {
             //break / return to the player
             case State.Bonus:
@@ -170,17 +169,17 @@ public class Cell : MonoBehaviour
             case State.Resource:
                 break;
         }
-        MyState = State.Transition;
+        myState = State.Transition;
     }
 
     void OnMouseDown() // Debug purposes
     {
-        die();
+        Die();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && MyState == State.Deadly)
+        if (other.CompareTag("Player") && myState == State.Deadly)
         {
             other.GetComponent<Character>().Die();
         }
@@ -188,9 +187,9 @@ public class Cell : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player") && MyState == State.Transition)
+        if (other.CompareTag("Player") && myState == State.Transition)
         {
-            MyState = State.Deadly;
+            myState = State.Deadly;
         }
     }
 }

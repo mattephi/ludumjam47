@@ -10,16 +10,16 @@ public class Character : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     public float MinDamage
     {
-        get { return _minDamage; }
-        private set { _minDamage = value; }
+        get => minDamage;
+        private set => minDamage = value;
     }
-    [SerializeField] private float _minDamage = 2f;
+    [SerializeField] private float minDamage = 2f;
     [SerializeField] private float movingSpeed = 2.0f;
 
-    public float CurDamage;
+    public float curDamage;
     
-    public Cell.Direction MyDirection;
-    public Cell.Direction BaseDirection;
+    public Cell.Direction myDirection;
+    public Cell.Direction baseDirection;
     public enum State
     {
         Moving,
@@ -28,19 +28,19 @@ public class Character : MonoBehaviour
         Waiting
     }
 
-    public State Mystate;
+    public State mystate;
     
     public Cell curCell;
 
-    public bool Immortal;
+    public bool immortal;
     
     public Character(Cell.Direction baseDirection, Cell.Direction myDirection, Cell curCell)
     {
-        BaseDirection = baseDirection;
-        MyDirection = myDirection;
+        this.baseDirection = baseDirection;
+        this.myDirection = myDirection;
         this.curCell = curCell;
-        CurDamage = _minDamage;
-        Mystate = State.Waiting;
+        curDamage = minDamage;
+        mystate = State.Waiting;
     }
     #endregion
     
@@ -48,51 +48,51 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        CurDamage = _minDamage;
-        Mystate = State.Waiting;
+        curDamage = minDamage;
+        mystate = State.Waiting;
     }
 
-    void validateAndMoveToNextCell()
+    void ValidateAndMoveToNextCell()
     {
-        if (!curCell.IsExist(MyDirection) || !curCell.IsAvailable(MyDirection))
+        if (!curCell.IsExist(myDirection) || !curCell.IsAvailable(myDirection))
         {
             Die();
         }
         
-        if (curCell.MyState == Cell.State.StartingPoint)
+        if (curCell.myState == Cell.State.StartingPoint)
         {
             //change the BaseDirection
-            if (MyDirection == Cell.Direction.Up)
+            if (myDirection == Cell.Direction.Up)
             {
-                BaseDirection = Cell.Direction.Down;
+                baseDirection = Cell.Direction.Down;
             }
-            else if (MyDirection == Cell.Direction.Down)
+            else if (myDirection == Cell.Direction.Down)
             {
-                BaseDirection = Cell.Direction.Down;
+                baseDirection = Cell.Direction.Down;
             }
             
             //turn back from borders
             if (!curCell.IsExist(Cell.Direction.Left))
             {
-                MyDirection = Cell.Direction.Right;
+                myDirection = Cell.Direction.Right;
             }
             else if (!curCell.IsExist(Cell.Direction.Right))
             {
-                MyDirection = Cell.Direction.Left;
+                myDirection = Cell.Direction.Left;
             }
         }//if it's not a starting point
         else
         {
-            curCell.MyState = Cell.State.Transition;
+            curCell.myState = Cell.State.Transition;
         }
         
-        curCell = curCell.NeighborCells[MyDirection];
+        curCell = curCell.NeighborCells[myDirection];
     }
 
     void Mine()
     {
-        validateAndMoveToNextCell();
-        while (curCell.MyState != Cell.State.Transition && curCell.MyState != Cell.State.StartingPoint)
+        ValidateAndMoveToNextCell();
+        while (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
         {
             curCell.GetDamage(this);
         }
@@ -101,20 +101,20 @@ public class Character : MonoBehaviour
         
         
         // Start mining.
-        Mystate = State.Moving;
+        mystate = State.Moving;
         Move();
     }
     
     void Move()
     {
-        Mystate = State.Waiting;
+        mystate = State.Waiting;
         transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime*movingSpeed);
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (Mystate)
+        switch (mystate)
         {
             case State.Moving:
                 break;
@@ -123,7 +123,7 @@ public class Character : MonoBehaviour
             case State.Mining:
                 break;
             case State.Waiting:
-                Mystate = State.Mining;
+                mystate = State.Mining;
                 Mine();
                 break;
             default:

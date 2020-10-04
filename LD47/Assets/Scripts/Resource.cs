@@ -7,15 +7,15 @@ using UnityEngine;
 public class Resource : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private Sprite sprite;
     public int value = 1;
-    [SerializeField] private Sprite[] SpriteArr;
+    [SerializeField] private Sprite[] spriteArr;
 
     private void OnValidate()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        _sprite = SpriteArr[value - 1];
-        spriteRenderer.sprite = _sprite;
+        sprite = spriteArr[value - 1];
+        spriteRenderer.sprite = sprite;
     }
     
 }

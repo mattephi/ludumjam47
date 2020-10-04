@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Bonus : MonoBehaviour
 {
-    [SerializeField] private const float defaultMiningModifier = 1.5f;
+    [SerializeField] private const float DefaultMiningModifier = 1.5f;
 
-    [SerializeField] private const float defaultMiningTimingModifier = 5.0f;
+    [SerializeField] private const float DefaultMiningTimingModifier = 5.0f;
     
-    [SerializeField] private const float defaultImmortalityTimingModifier = 5.0f;
+    [SerializeField] private const float DefaultImmortalityTimingModifier = 5.0f;
 
-    [SerializeField] private const bool  defaultImmortalityModifier = true;
+    [SerializeField] private const bool  DefaultImmortalityModifier = true;
     // Start is called before the first frame update
     void Start() {}
 
@@ -19,38 +19,38 @@ public class Bonus : MonoBehaviour
 
     void EnableDamageBonus(
         Character character, 
-        float miningModifier = defaultMiningModifier, 
-        float timingModifier = defaultMiningTimingModifier)
+        float miningModifier = DefaultMiningModifier, 
+        float timingModifier = DefaultMiningTimingModifier)
     {
-        character.CurDamage *= miningModifier;
+        character.curDamage *= miningModifier;
         StartCoroutine(DisableDamageBonus(character, miningModifier, timingModifier));
     }
 
     IEnumerator DisableDamageBonus(
         Character character,
-        float miningModifier = defaultMiningModifier,
-        float timingModifier = defaultMiningTimingModifier)
+        float miningModifier = DefaultMiningModifier,
+        float timingModifier = DefaultMiningTimingModifier)
     {
         yield return new WaitForSeconds(timingModifier);
-        character.CurDamage /= miningModifier;
+        character.curDamage /= miningModifier;
     }
     
     void EnableImmortality(
         Character character,
-        bool immortalityModifier = defaultImmortalityModifier,
-        float timingModifier = defaultImmortalityTimingModifier)
+        bool immortalityModifier = DefaultImmortalityModifier,
+        float timingModifier = DefaultImmortalityTimingModifier)
     {
-        character.Immortal = defaultImmortalityModifier;
+        character.immortal = DefaultImmortalityModifier;
         StartCoroutine(DisableImmortality(character, immortalityModifier));
     }
 
     IEnumerator DisableImmortality(
         Character character, 
-        bool immortalityModifier = defaultImmortalityModifier,
-        float timingModifier = defaultImmortalityTimingModifier)
+        bool immortalityModifier = DefaultImmortalityModifier,
+        float timingModifier = DefaultImmortalityTimingModifier)
     {
         yield return new WaitForSeconds(timingModifier);
-        character.Immortal = !immortalityModifier;
+        character.immortal = !immortalityModifier;
     }
 
     void Swap()
