@@ -36,6 +36,7 @@ public class Character : MonoBehaviour
 
     public bool immortal;
     
+
     public void Init(Cell.Direction baseDirection, Cell.Direction myDirection, Cell curCell)
     {
         this.baseDirection = baseDirection;
