@@ -23,6 +23,8 @@ public class Character : MonoBehaviour
     
     public Cell.Direction myDirection;
     public Cell.Direction baseDirection;
+    public Cell.Direction drillDirection = Cell.Direction.Right;
+
     public enum State
     {
         Moving,
@@ -91,9 +93,20 @@ public class Character : MonoBehaviour
                 if (left)
                 {
                     myDirection = Cell.Direction.Left;
+                    if (drillDirection != Cell.Direction.Left)
+                    {
+                        drillDirection = Cell.Direction.Left;
+                        this.transform.Rotate(new Vector3(0, 1, 0), 180);
+                    }
                 }
                 else
                 {
+                    if (drillDirection != Cell.Direction.Right)
+                    {
+                        drillDirection = Cell.Direction.Right;
+                        this.transform.Rotate(new Vector3(0, 1, 0), 180);
+                    }
+                    
                     myDirection = Cell.Direction.Right;
                 }
             }
@@ -113,12 +126,16 @@ public class Character : MonoBehaviour
                 if (myDirection == Cell.Direction.Right)
                 {
                     myDirection = Cell.Direction.Left;
+                    drillDirection = Cell.Direction.Left;
+                    this.transform.Rotate(new Vector3(0, 1, 0), 180);
                 }
             } else if (!newCell.IsExist(Cell.Direction.Left))
             {
                 if (myDirection == Cell.Direction.Left)
                 {
                     myDirection = Cell.Direction.Right;
+                    drillDirection = Cell.Direction.Right;
+                    this.transform.Rotate(new Vector3(0, 1, 0), 180);
                 }
             }
         }
@@ -157,6 +174,7 @@ public class Character : MonoBehaviour
             case State.Starting:
                 break;
             case State.Mining:
+                this.GetComponent<Animator>().Play("digs-right");
                 if (!_isValidated)
                 {
                     ValidateAndMoveToNextCell();

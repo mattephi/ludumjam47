@@ -17,6 +17,7 @@ public class GlobalController : MonoBehaviour
 
     private void Update()
     {
+        char1.GetComponent<Animator>().Play("digs-down");
     }
 
     public void SwapCharacters()

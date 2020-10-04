@@ -26,8 +26,12 @@ public class InputManager : MonoBehaviour
                 }
             }
             if (Input.GetKeyDown(KeyCode.A))
-            {    
-                globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
+            {
+                if (globalController.char1.drillDirection != Cell.Direction.Left)
+                {
+                    globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
+                    globalController.char1.drillDirection = Cell.Direction.Left;
+                }
                 globalController.char1.myDirection = Cell.Direction.Left;
             }
             if (Input.GetKeyDown(KeyCode.S))
@@ -38,8 +42,13 @@ public class InputManager : MonoBehaviour
                 }
             }
             if (Input.GetKeyDown(KeyCode.D))
-            {    
-                globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
+            {
+                if (globalController.char1.drillDirection != Cell.Direction.Right)
+                {
+                    globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
+                    globalController.char1.drillDirection = Cell.Direction.Right;
+                }
+                
                 globalController.char1.myDirection = Cell.Direction.Right;
             }
         }
@@ -62,11 +71,21 @@ public class InputManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {    
+                if (globalController.char2.drillDirection != Cell.Direction.Left)
+                {
+                    globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
+                    globalController.char2.drillDirection = Cell.Direction.Left;
+                }
                 globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char2.myDirection = Cell.Direction.Left;
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {    
+                if (globalController.char2.drillDirection != Cell.Direction.Right)
+                {
+                    globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
+                    globalController.char2.drillDirection = Cell.Direction.Right;
+                }
                 globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char2.myDirection = Cell.Direction.Right;
             }
