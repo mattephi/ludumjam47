@@ -10,8 +10,9 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
+            print("Swap made");
             globalController.SwapCharacters();
         }
         

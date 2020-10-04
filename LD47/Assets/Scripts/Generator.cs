@@ -12,7 +12,8 @@ public class Generator : MonoBehaviour
     [SerializeField] private GameObject characterPrefab;
     
     public int rows, columns;
-    public Sprite startCellSprite;
+    public Sprite upGrass;
+    public Sprite downGrass;
     public Character[] characters;
     private Cell[,] _cellMatrix;
 
@@ -34,15 +35,20 @@ public class Generator : MonoBehaviour
             Vector3 spawnPoint = thisTransformPosition + new Vector3(j * cellSize, 0, 0);
             _cellMatrix[0, j] = Instantiate(cellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
             _cellMatrix[0, j].Init(Cell.State.StartingPoint);
+            _cellMatrix[0, j].surfaceSprite = upGrass;
+            var dx = _cellMatrix[0, j].GetComponent<Renderer>().bounds.size.x;
+            _cellMatrix[0, j].reachMe = spawnPoint + new Vector3(0, dx/2, 0);
             //Debug.Log("" + 0 + " " + j + " " + CellMatrix[0, j]);
 
             spawnPoint = thisTransformPosition + new Vector3(j * cellSize, -cellSize * (rows + 1), 0);
             _cellMatrix[rows + 1, j] = Instantiate(cellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
             _cellMatrix[rows + 1, j].Init(Cell.State.StartingPoint);
             //Debug.Log("" + (rows + 1) + " " + j + " " + CellMatrix[rows + 1, j]);
-
-            _cellMatrix[rows + 1, j].GetComponent<SpriteRenderer>().sprite = startCellSprite;
-            _cellMatrix[0, j].GetComponent<SpriteRenderer>().sprite = startCellSprite;
+            _cellMatrix[rows + 1, j].surfaceSprite = downGrass;
+            _cellMatrix[rows + 1, j].reachMe = spawnPoint + new Vector3(0, -dx/2, 0);
+            
+            _cellMatrix[rows + 1, j].GetComponent<SpriteRenderer>().sprite = downGrass;
+            _cellMatrix[0, j].GetComponent<SpriteRenderer>().sprite = upGrass;
         }
         
         for (var i = 1; i < rows + 1; i++)
@@ -52,6 +58,8 @@ public class Generator : MonoBehaviour
                 Vector3 spawnPoint = thisTransformPosition + new Vector3(j * cellSize, -i * cellSize, 0);
                 _cellMatrix[i, j] = Instantiate(cellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
                 _cellMatrix[i, j].Init(Cell.State.Surface);
+                var dx = _cellMatrix[0, j].GetComponent<Renderer>().bounds.size.x;
+                _cellMatrix[i, j].reachMe = spawnPoint;
                 Debug.Log("" + i + " " + j + " " + _cellMatrix[i, j]);
             }
         }

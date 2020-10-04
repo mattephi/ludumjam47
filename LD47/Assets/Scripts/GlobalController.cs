@@ -20,9 +20,9 @@ public class GlobalController : MonoBehaviour
         if (char1 && char2)
         {
             {
-                var temp = char1.transform.position;
-                char1.transform.position = char2.transform.position;
-                char2.transform.position = temp;
+                var temp = char1.curCell;
+                char1.curCell = char2.curCell;
+                char2.curCell = temp;
             }
             {
                 var temp = char1.myDirection;
@@ -33,6 +33,11 @@ public class GlobalController : MonoBehaviour
                 var temp = char1.baseDirection;
                 char1.baseDirection = char2.baseDirection;
                 char2.baseDirection = temp;
+            }
+            {
+                var temp = char1.transform.position;
+                char1.transform.position = char2.transform.position;
+                char2.transform.position = temp;
             }
         }
     }
