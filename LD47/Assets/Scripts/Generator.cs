@@ -56,29 +56,28 @@ public class Generator : MonoBehaviour
         }
 
         for (int i_1 = 0; i_1 < rows + 2; i_1++) // writing nighbours for each cell
-        for (int i_2 = 0; i_2 < columns; i_2++)
-        {
-            Debug.Log("Writing neighbours" + i_1 + " " + i_2 + " " + CellMatrix[i_1, i_2]);
-            if (i_1 > 0 && i_2 > 0)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.UpLeft] = CellMatrix[i_1 - 1, i_2 - 1];
-            if (i_1 > 0)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Up] = CellMatrix[i_1 - 1, i_2];
-            if (i_1 > 0 && i_2 + 1 < columns)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.UpRight] = CellMatrix[i_1 - 1, i_2 + 1];
-            if (i_2 + 1 < columns)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Right] = CellMatrix[i_1, i_2 + 1];
-            if (i_1 + 1 < rows && i_2 + 1 < columns)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.DownRight] = CellMatrix[i_1 + 1, i_2 + 1];
-            if (i_1 + 1 < rows)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Down] = CellMatrix[i_1 + 1, i_2];
-            if (i_1 + 1 < rows && i_2 > 0)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.DownLeft] = CellMatrix[i_1 + 1, i_2 - 1];
-            if (i_2 > 0)
-                CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Left] = CellMatrix[i_1, i_2 - 1];
+            for (int i_2 = 0; i_2 < columns; i_2++)
+            {
+                Debug.Log("Writing neighbours" + i_1 + " " + i_2 + " " + CellMatrix[i_1, i_2]);
+                if (i_1 > 0)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Up] = CellMatrix[i_1 - 1, i_2];
+                if (i_2 + 1 < columns)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Right] = CellMatrix[i_1, i_2 + 1];
+                if (i_1 + 1 < rows)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Down] = CellMatrix[i_1 + 1, i_2];
+                if (i_2 > 0)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Left] = CellMatrix[i_1, i_2 - 1];
 
-            Debug.Log(CellMatrix[i_1, i_2].NeighborCells);
-        }
-        
+                if (i_1 > 0 && i_2 > 0)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.UpLeft] = CellMatrix[i_1 - 1, i_2 - 1];
+                if (i_1 > 0 && i_2 + 1 < columns)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.UpRight] = CellMatrix[i_1 - 1, i_2 + 1];
+                if (i_1 + 1 < rows && i_2 + 1 < columns)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.DownRight] = CellMatrix[i_1 + 1, i_2 + 1];
+                if (i_1 + 1 < rows && i_2 > 0)
+                    CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.DownLeft] = CellMatrix[i_1 + 1, i_2 - 1];
+                Debug.Log(CellMatrix[i_1, i_2].NeighborCells);
+            }
     }
     
     void SpawnChar()

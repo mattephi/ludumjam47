@@ -5,6 +5,7 @@ using System.Diagnostics;
 using UnityEngine;
 
 
+
 public class Cell : MonoBehaviour
 {
     public Sprite[] borderSprites;
@@ -70,17 +71,7 @@ public class Cell : MonoBehaviour
         else
         {
             curHp = 0f;
-            switch (MyState)
-            {
-                //break / return to the player
-                case State.Bonus:
-                    break;
-                case State.Surface:
-                    break;
-                case State.Resource:
-                    break;
-            }
-            MyState = State.Transition;
+            die();
         }
     }
 
@@ -95,20 +86,59 @@ public class Cell : MonoBehaviour
         return NeighborCells[direction].MyState != State.Deadly;
     }
 
+    public int getNeighbourIndex(Direction direct)
+    {
+        switch (direct)
+        {
+            case Direction.UpLeft: return 0;
+            case Direction.Up: return 1;
+            case Direction.UpRight: return 2;
+            case Direction.Right: return 3;
+            case Direction.DownRight: return 4;
+            case Direction.Down: return 5;
+            case Direction.DownLeft: return 6;
+            case Direction.Left: return 7;
+            default:
+                UnityEngine.Debug.Log("Unexpected input");
+                return -1;
+        }
+    }
 
-    void OnMouseDown() // Debug purposes
+    void drawBorders()
     {
         int i_identifier = 0;
-        int i_magnitude = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
             UnityEngine.Debug.Log(item.Value.MyState);
-            if (item.Value.MyState == State.Deadly)
-                i_identifier += 1 << i_magnitude; //TODO replace i_magnitude with dictionary of enum Direction
-            i_magnitude++;
+            if (item.Value.MyState == State.Deadly || item.Value.MyState == State.Transition)
+                i_identifier += 1 << getNeighbourIndex(item.Key);
         }
-        MyState = State.Deadly;
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
         UnityEngine.Debug.Log(i_identifier);
+
+        #region drawing broders
+        //if (i_identifier ~ 0b_1000_0011 == 0b_10000000)
+        #endregion 
+    }
+
+    void die() // Debug purposes
+    {
+        drawBorders();
+        switch (MyState)
+        {
+            //break / return to the player
+            case State.Bonus:
+                break;
+            case State.Surface:
+                break;
+            case State.Resource:
+                break;
+        }
+        MyState = State.Transition;
+    }
+
+    void OnMouseDown() // Debug purposes
+    {
+        die();
     }
 }
