@@ -317,6 +317,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2035036659}
   - component: {fileID: 2035036658}
+  - component: {fileID: 2035036660}
   m_Layer: 0
   m_Name: Grid generator
   m_TagString: Untagged
@@ -337,14 +338,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSize: 1
-  Gen: {fileID: 0}
-  CellPrefab: {fileID: 4075463274846700195, guid: ccd73e443dd1be535aed925e4bfb4498,
+  globalController: {fileID: 2035036660}
+  cellPrefab: {fileID: 4075463274846700195, guid: ccd73e443dd1be535aed925e4bfb4498,
     type: 3}
-  CharacterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 2912484219990650280, guid: 0596ae80c5b6d1974ae85710a1f39761,
+    type: 3}
   rows: 5
   columns: 5
-  StartCellSprite: {fileID: 0}
-  Characters: []
+  startCellSprite: {fileID: 0}
+  characters: []
 --- !u!4 &2035036659
 Transform:
   m_ObjectHideFlags: 0
@@ -359,3 +361,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2035036660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2035036657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ecb0f1134d417fb24dbe11f8411c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generator: {fileID: 2035036658}
+  char1: {fileID: 0}
+  char2: {fileID: 0}
