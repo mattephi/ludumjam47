@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿// using System;
+// using System.Collections;
+// using System.Collections.Generic;
 using UnityEngine;
-using Random = System.Random;
+// using Random = System.Random;
 
 public class Character : MonoBehaviour
 {
@@ -28,7 +28,7 @@ public class Character : MonoBehaviour
         Waiting
     }
 
-    public State mystate;
+    public State myState;
     
     public Cell curCell;
 
@@ -52,25 +52,27 @@ public class Character : MonoBehaviour
         mystate = State.Waiting;
     }
 
-    void ValidateAndMoveToNextCell()
+    private void ValidateAndMoveToNextCell()
     {
         if (!curCell.IsExist(myDirection) || !curCell.IsAvailable(myDirection))
         {
+            print("Die");
             Die();
         }
         
         if (curCell.myState == Cell.State.StartingPoint)
         {
-            //change the BaseDirection
-            if (myDirection == Cell.Direction.Up)
+            switch (baseDirection)
             {
-                baseDirection = Cell.Direction.Down;
+                //change the BaseDirection
+                case Cell.Direction.Up:
+                    baseDirection = Cell.Direction.Down;
+                    break;
+                case Cell.Direction.Down:
+                    baseDirection = Cell.Direction.Up;
+                    break;
             }
-            else if (myDirection == Cell.Direction.Down)
-            {
-                baseDirection = Cell.Direction.Down;
-            }
-            
+
             //turn back from borders
             if (!curCell.IsExist(Cell.Direction.Left))
             {
@@ -83,38 +85,41 @@ public class Character : MonoBehaviour
         }//if it's not a starting point
         else
         {
-            curCell.myState = Cell.State.Transition;
+            curCell.myState = Cell.State.Deadly;
         }
-        
-        curCell = curCell.NeighborCells[myDirection];
+
+        if (curCell.IsExist(myDirection) && curCell.IsAvailable(myDirection))
+        {
+            curCell = curCell.NeighborCells[myDirection];
+        }
     }
 
-    void Mine()
+    private void Mine()
     {
         ValidateAndMoveToNextCell();
         while (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
         {
+            curCell.myState = Cell.State.Transition;
             curCell.GetDamage(this);
         }
         
-        //NewCell state = transition, previous cell state = deadly
-        
-        
         // Start mining.
-        mystate = State.Moving;
+        myState = State.Moving;
         Move();
     }
     
-    void Move()
+    private void Move()
     {
-        mystate = State.Waiting;
+        print(myDirection);
+        transform.Translate(-1000, -1000, -1000);
+        myState = State.Waiting;
         transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime*movingSpeed);
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        switch (mystate)
+        switch (myState)
         {
             case State.Moving:
                 break;
@@ -123,10 +128,8 @@ public class Character : MonoBehaviour
             case State.Mining:
                 break;
             case State.Waiting:
-                mystate = State.Mining;
+                myState = State.Mining;
                 Mine();
-                break;
-            default:
                 break;
         }
     }

@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿// using System;
+// using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+// using System.Diagnostics;
 using UnityEngine;
 
 public class Cell : MonoBehaviour
@@ -28,6 +28,9 @@ public class Cell : MonoBehaviour
     };
     
     public readonly Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
+
+    #region Initialization
+    public Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
 
     public enum State
     {
@@ -113,7 +116,7 @@ public class Cell : MonoBehaviour
 
     public bool IsExist(Direction direction)
     {
-        return (NeighborCells.TryGetValue(direction, out var neighborcell) && !ReferenceEquals(neighborcell, null));
+        return (NeighborCells.TryGetValue(direction, out var neighbourCell) && !ReferenceEquals(neighbourCell, null));
     }
 
     public bool IsAvailable(Direction direction)
@@ -121,7 +124,7 @@ public class Cell : MonoBehaviour
         return NeighborCells[direction].myState != State.Deadly;
     }
 
-    private int getNeighbourIndex(Direction direct)
+    public int getNeighbourIndex(Direction direct)
     {
         switch (direct)
         {
@@ -139,17 +142,17 @@ public class Cell : MonoBehaviour
         }
     }
 
-    void DrawBorders()
+    void drawBorders()
     {
-        int iIdentifier = 0;
+        int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
             UnityEngine.Debug.Log(item.Value.myState);
             if (item.Value.myState == State.Deadly || item.Value.myState == State.Transition)
-                iIdentifier += 1 << getNeighbourIndex(item.Key);
+                i_identifier += 1 << getNeighbourIndex(item.Key);
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        UnityEngine.Debug.Log(iIdentifier);
+        UnityEngine.Debug.Log(i_identifier);
 
         #region drawing broders
         //if (i_identifier ~ 0b_1000_0011 == 0b_10000000)
@@ -158,7 +161,7 @@ public class Cell : MonoBehaviour
 
     void Die() // Debug purposes
     {
-        DrawBorders();
+        drawBorders();
         switch (myState)
         {
             //break / return to the player
@@ -176,20 +179,20 @@ public class Cell : MonoBehaviour
     {
         Die();
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player") && myState == State.Deadly)
-        {
-            other.GetComponent<Character>().Die();
-        }
     }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player") && myState == State.Transition)
-        {
+        }
             myState = State.Deadly;
+        {
+        if (other.CompareTag("Player") && myState == State.Transition)
+    {
+    private void OnTriggerExit(Collider other)
+
         }
     }
+            other.GetComponent<Character>().Die();
+        {
+        if (other.CompareTag("Player") && myState == State.Deadly)
+    {
+    private void OnTriggerEnter(Collider other)
+
 }
