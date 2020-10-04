@@ -151,30 +151,30 @@ public class Cell : MonoBehaviour
 
     struct borderCheckElem
     {
-        public int mask;
-        public int controlVal;
+        public int Mask;
+        public int ControlVal;
     }
-    borderCheckElem[] borderCheck = 
+    borderCheckElem[] _borderCheck = 
     {
-        new borderCheckElem { mask =  0b_1100_0001, controlVal = 0b_1000_0000}, //a1
-        new borderCheckElem { mask =  0b_0111_0000, controlVal = 0b_0010_0000}, //a3
-        new borderCheckElem { mask =  0b_0001_1100, controlVal = 0b_0000_1000}, //a5
-        new borderCheckElem { mask =  0b_0000_0111, controlVal = 0b_0000_0010}, //a7
+        new borderCheckElem { Mask =  0b_1100_0001, ControlVal = 0b_1000_0000}, //a1
+        new borderCheckElem { Mask =  0b_0111_0000, ControlVal = 0b_0010_0000}, //a3
+        new borderCheckElem { Mask =  0b_0001_1100, ControlVal = 0b_0000_1000}, //a5
+        new borderCheckElem { Mask =  0b_0000_0111, ControlVal = 0b_0000_0010}, //a7
                 
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0000}, //c24
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0100_0001}, //c28
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0001_0100}, //c46
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0000_0101}, //c68
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0101_0000}, //c24
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0100_0001}, //c28
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0001_0100}, //c46
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0000_0101}, //c68
 
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0100}, //d246
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0001}, //d248
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0100_0101}, //d268
-        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0001_0101}, //d468
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0101_0100}, //d246
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0101_0001}, //d248
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0100_0101}, //d268
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0001_0101}, //d468
         
-        new borderCheckElem { mask =  0b_0101_0001, controlVal = 0b_0100_0000}, //l2
-        new borderCheckElem { mask =  0b_0101_0100, controlVal = 0b_0001_0000}, //l4
-        new borderCheckElem { mask =  0b_0001_0101, controlVal = 0b_0000_0100}, //l6
-        new borderCheckElem { mask =  0b_0100_0101, controlVal = 0b_0000_0001}, //l8
+        new borderCheckElem { Mask =  0b_0101_0001, ControlVal = 0b_0100_0000}, //l2
+        new borderCheckElem { Mask =  0b_0101_0100, ControlVal = 0b_0001_0000}, //l4
+        new borderCheckElem { Mask =  0b_0001_0101, ControlVal = 0b_0000_0100}, //l6
+        new borderCheckElem { Mask =  0b_0100_0101, ControlVal = 0b_0000_0001}, //l8
     };
 
     public GameObject[] borders = new GameObject[8];
@@ -190,28 +190,44 @@ public class Cell : MonoBehaviour
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.myState);
+            //UnityEngine.Debug.Log(item.Value.myState);
             if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
                 i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        UnityEngine.Debug.Log(i_identifier);
+        //UnityEngine.Debug.Log(i_identifier);
        
-        foreach(var item in borderCheck.Select((value, i) => new { i, value }))
+        foreach(var item in _borderCheck.Select((value, i) => new { i, value }))
         {
-            if ((i_identifier & item.value.mask) == item.value.controlVal)
+            if ((i_identifier & item.value.Mask) == item.value.ControlVal)
             {
                 borders[bordersCount] = new GameObject();
                 borders[bordersCount].transform.parent = gameObject.transform;
                 borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
-                UnityEngine.Debug.Log(borders[bordersCount]);
+                //UnityEngine.Debug.Log(borders[bordersCount]);
                 bordersCount++;
             }
         }
     }
 
-    void Die() // Debug purposes
+    void Die(Character character) // Debug purposes
+    {
+        switch (myState)
+        {
+            //break / return to the player
+            case State.Deadly:
+            case State.Surface:
+            case State.Transition:
+                //
+                break;
+            case State.Bonus:
+                myBonus.EnableBonus(character);
+                break;
+            case State.Resource:
+                break;
+        }
+        SetSprite(State.Transition);
         drawBorders();
         foreach (var item in NeighborCells)
         {
@@ -226,26 +242,11 @@ public class Cell : MonoBehaviour
     void OnMouseOver() // Debug purposes
     {
         if (Input.GetKey(KeyCode.Mouse0))
-            Die();
+            Die(null);
     }
-            switch (myState)
-            {
-                //break / return to the player
-                case State.Deadly:
-                case State.Surface:
-                case State.Transition:
-                    //
-                break;
-                case State.Bonus:
-                    myBonus.EnableBonus(character);
-                    break;
-                case State.Resource:
-                    break;
-            }
-            SetSprite(State.Transition);
 
 
-    private void OnCollisionEnter2D(Collision2D other1)
+private void OnCollisionEnter2D(Collision2D other1)
     {
         if (other1.gameObject.CompareTag("Player") && myState == State.Deadly)
         {
