@@ -14,9 +14,14 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKey(KeyCode.F))
+        {
+            globalController.SwapCharacters();
+        }
+
         if (Input.GetKeyDown(KeyCode.W))
         {       
-
+            globalController.SwapCharacters();
             if (globalController.char1.BaseDirection == Cell.Direction.Up)
             {
                 globalController.char1.MyDirection = Cell.Direction.Up;

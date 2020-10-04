@@ -11,6 +11,8 @@ public class Bonus : MonoBehaviour
     [SerializeField] private const float defaultImmortalityTimingModifier = 5.0f;
 
     [SerializeField] private const bool  defaultImmortalityModifier = true;
+
+    [SerializeField] private GlobalController _globalController;
     // Start is called before the first frame update
     void Start() {}
 
@@ -55,6 +57,7 @@ public class Bonus : MonoBehaviour
 
     void Swap()
     {
+        _globalController.SwapCharacters();
         // TODO: Write controlling class
         // Which will perform these changes.
     }

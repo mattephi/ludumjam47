@@ -42,4 +42,9 @@ public class GlobalController : MonoBehaviour
     {
         //drawCaves(_generator.CellMatrix, _generator.rows, _generator.columns);
     }
+
+    public void SwapCharacters()
+    {
+        print("Works");
+    }
 }

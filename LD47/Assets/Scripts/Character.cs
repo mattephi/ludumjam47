@@ -39,6 +39,8 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CurDamage = _minMiningSpeed;
+        movingSpeed = _minMiningSpeed;
         Mystate = State.Waiting;
     }
 
@@ -46,6 +48,7 @@ public class Character : MonoBehaviour
     {
         if (!curCell.IsExist(MyDirection) || !curCell.IsAvailable(MyDirection))
         {
+            print("Die");
             Die();
         }
         
@@ -84,9 +87,10 @@ public class Character : MonoBehaviour
         validateAndMoveToNextCell();
         while (curCell.MyState != Cell.State.Transition && curCell.MyState != Cell.State.StartingPoint)
         {
+            curCell.MyState = Cell.State.Transition;
             curCell.GetDamage(this);
         }
-
+        
         // Start mining.
         Mystate = State.Moving;
         Move();
@@ -94,6 +98,8 @@ public class Character : MonoBehaviour
     
     void Move()
     {
+        print(MyDirection);
+        transform.Translate(-1000, -1000, -1000);
         Mystate = State.Waiting;
         transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime*movingSpeed);
     }
