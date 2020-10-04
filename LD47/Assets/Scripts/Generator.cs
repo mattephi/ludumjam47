@@ -11,7 +11,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private GameObject character1Prefab;
     [SerializeField] private GameObject character2Prefab;
-    public bool createCharacters = true;
+    public bool generateNow = false;
     
     public int rows, columns;
     public Sprite upGrass;
@@ -27,19 +27,17 @@ public class Generator : MonoBehaviour
     [SerializeField] private GameObject CrossBomb;
     [SerializeField] private GameObject Swap;
     [SerializeField] private GameObject Immortality;
-    
+
     private void OnEnable()
     {
-        GenerateMatrix();
-        if (createCharacters)
-        {
+        if (generateNow)
+        { 
+            GenerateMatrix(rows, columns);
             SpawnChar();
-            globalController.char1 = characters[0];
-            globalController.char2 = characters[1];
         }
     }
 
-    private void GenerateMatrix()
+    public void GenerateMatrix(int rows, int columns)
     {
         _cellMatrix = new Cell[rows + 2, columns];
         //just for starting el-s
@@ -101,13 +99,11 @@ public class Generator : MonoBehaviour
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownRight] = _cellMatrix[i1 + 1, i2 + 1];
                 if (i1 < rows + 1 && i2 > 0)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownLeft] = _cellMatrix[i1 + 1, i2 - 1];
-                //Debug.Log(_cellMatrix[i1, i2].NeighborCells);
-                
-                
+                //Debug.Log(_cellMatrix[i1, i2].NeighborCells);         
             }
     }
-    
-    private void SpawnChar()
+
+    public void SpawnChar()
     {
         characters = new Character[2];
         var pointA = Random.Range(0, columns);
@@ -124,8 +120,8 @@ public class Generator : MonoBehaviour
         characters[1].Init(Cell.Direction.Up, Cell.Direction.Up, _cellMatrix[rows + 1, pointB]);
         characters[1].GlobalController = globalController;
 
-        
-        
+        globalController.char1 = characters[0];
+        globalController.char2 = characters[1];
     }
 
     private void SpawnBonRes(Cell cell)

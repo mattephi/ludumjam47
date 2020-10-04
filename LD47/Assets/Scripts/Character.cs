@@ -1,4 +1,4 @@
-// using System;
+﻿// using System;
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
@@ -13,8 +13,8 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 100.0f;
-    [SerializeField] private float movingSpeed = 2f;
+    [SerializeField] private float minDamage = 1000.0f;
+    [SerializeField] private float movingSpeed = 20f;
 
     public float curDamage = 100.0f;
     private bool iFixit = false;
@@ -181,7 +181,7 @@ public class Character : MonoBehaviour
 
                 if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
                 {
-                    print("Time: " + Time.deltaTime + " damage: " + curDamage + " real damage: " + curDamage * Time.deltaTime);
+                    //print("Time: " + Time.deltaTime + " damage: " + curDamage + " real damage: " + curDamage * Time.deltaTime);
                     curCell.GetDamage(this, curDamage * Time.deltaTime);
                 }
                 else if(curCell.myState == Cell.State.Transition || curCell.myState == Cell.State.StartingPoint)
@@ -197,8 +197,16 @@ public class Character : MonoBehaviour
 
     public void Die()
     {
-        print("DIE   "  + this);
-        Time.timeScale = 0;
+        if (immortal)
+        {
+            print("DIE   "  + this);
+        }
+        else
+        {
+            //
+        }
+            
+        //Time.timeScale = 0;
         
         //Destroy(this.gameObject);
     }

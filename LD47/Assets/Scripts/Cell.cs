@@ -1,5 +1,7 @@
 // using System;
 // using System.Collections;
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -249,11 +251,12 @@ public class Cell : MonoBehaviour
             
     }
 
+    /*
     void OnMouseOver() // Debug purposes
     {
         if (Input.GetKey(KeyCode.Mouse0))
             Die(null);
-    }
+    }*/
 
 
     private void OnCollisionEnter2D(Collision2D other1)
@@ -263,7 +266,7 @@ public class Cell : MonoBehaviour
             other1.gameObject.GetComponent<Character>().Die();
         }
     }
-    
+
     private void OnTriggerExit2D(Collider2D other1)
     {
         if (other1.CompareTag("Player") && myState == State.Transition)
@@ -272,8 +275,11 @@ public class Cell : MonoBehaviour
         }
     }
 
-    public void Explode()
+    public void Explode(Character character)
     {
+        if(myState == State.StartingPoint)
+            return;
+        Die(character);
         RemoveResBonSurf();
         SetState(State.Deadly);
     }
@@ -300,12 +306,12 @@ public class Cell : MonoBehaviour
     {
         if (!ReferenceEquals(myBonus, null))
         {
-            myBonus.gameObject.SetActive(false);
+            myBonus.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
         }
 
         if (!ReferenceEquals(myResource, null))
         {
-            myResource.gameObject.SetActive(false);   
+            myResource.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
         }
     }
 }
