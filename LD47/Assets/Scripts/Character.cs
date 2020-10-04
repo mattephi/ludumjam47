@@ -95,6 +95,7 @@ public class Character : MonoBehaviour
     void Move()
     {
         Mystate = State.Waiting;
+        transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime*movingSpeed);
     }
 
     // Update is called once per frame
@@ -119,6 +120,7 @@ public class Character : MonoBehaviour
 
     void Die()
     {
+        print("DIE");
         Destroy(this);
     }
 }
