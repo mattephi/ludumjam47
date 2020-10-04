@@ -94,8 +94,8 @@ public class Generator : MonoBehaviour
         Characters[0].curCell = CellMatrix[0, pointA];
         
         Characters[1] = Instantiate(CharacterPrefab,spawnB , Quaternion.identity).GetComponent<Character>();
-        Characters[1].BaseDirection = Cell.Direction.Down;
-        Characters[1].MyDirection = Cell.Direction.Down;
+        Characters[1].BaseDirection = Cell.Direction.Up;
+        Characters[1].MyDirection = Cell.Direction.Up;
         Characters[1].curCell = CellMatrix[rows + 1, pointB];
         
     }

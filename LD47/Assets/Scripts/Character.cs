@@ -40,6 +40,7 @@ public class Character : MonoBehaviour
     void Start()
     {
         Mystate = State.Waiting;
+        MyDirection = Cell.Direction.Down;
     }
 
     void validateAndMoveToNextCell()
@@ -95,7 +96,7 @@ public class Character : MonoBehaviour
     void Move()
     {
         print("MOVE");
-        transform.Translate(curCell.gameObject.transform.position * Time.deltaTime);
+        transform.Translate(-1000, -1000, -1000);
         Mystate = State.Waiting;
     }
 
