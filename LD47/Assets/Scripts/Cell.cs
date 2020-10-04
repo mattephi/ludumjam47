@@ -270,4 +270,10 @@ private void OnCollisionEnter2D(Collision2D other1)
         }
     }
 
+    public void Dead()
+    {
+        //remove bonuses // resources
+        SetSprite(State.Deadly);
+    }
+
 }

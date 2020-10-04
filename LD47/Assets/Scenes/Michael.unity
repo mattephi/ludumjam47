@@ -161,7 +161,8 @@ MonoBehaviour:
     type: 3}
   rows: 10
   columns: 10
-  startCellSprite: {fileID: 21300000, guid: 692a43f29000009bba3266f821681f0e, type: 3}
+  upGrass: {fileID: 0}
+  downGrass: {fileID: 0}
   characters: []
 --- !u!4 &538118579
 Transform:
@@ -212,14 +213,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538118577}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3ea48b92da149407f934774978e80981, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  background1: {fileID: 2010211102834689281, guid: 114bf2ce108f74032a6c7b962f64fc03,
+  background: {fileID: 2010211102834689281, guid: 114bf2ce108f74032a6c7b962f64fc03,
     type: 3}
-  background2: {fileID: 2010211102834689281, guid: 114bf2ce108f74032a6c7b962f64fc03,
+  mainObject: {fileID: 2010211102834689281, guid: 114bf2ce108f74032a6c7b962f64fc03,
     type: 3}
 --- !u!1 &1315346566
 GameObject:

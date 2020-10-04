@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public class Bonus : MonoBehaviour
@@ -11,6 +12,7 @@ public class Bonus : MonoBehaviour
     [SerializeField] private const float DefaultImmortalityTimingModifier = 5.0f;
 
     [SerializeField] private const bool DefaultImmortalityModifier = true;
+    [SerializeField] private Cell cell;
 
     [SerializeField] private GlobalController globalController;
 
@@ -18,7 +20,9 @@ public class Bonus : MonoBehaviour
     {
         Immortality,
         DamageBonus,
-        Swap
+        Swap,
+        CrossBomb,
+        SplashBomb
     }
 
     public BonusType myBonusType;
@@ -29,6 +33,7 @@ public class Bonus : MonoBehaviour
         float miningModifier = DefaultMiningModifier, 
         float timingModifier = DefaultImmortalityTimingModifier)
     {
+        cell = character.curCell;
         switch (myBonusType)
         {
             case BonusType.Immortality:
@@ -81,10 +86,51 @@ public class Bonus : MonoBehaviour
         character.immortal = !immortalityModifier;
     }
 
+    void EnableSplashBomb(
+        Character character, 
+        float miningModifier = DefaultMiningModifier, 
+        float timingModifier = DefaultMiningTimingModifier)
+    {
+        StartCoroutine(DisableSplashBomb(character, miningModifier, 3f));
+    }
+
+    IEnumerator DisableSplashBomb(
+        Character character,
+        float miningModifier = DefaultMiningModifier,
+        float timingModifier = DefaultMiningTimingModifier)
+    {
+        yield return new WaitForSeconds(3f);
+
+        foreach (KeyValuePair<Cell.Direction, Cell> item in cell.NeighborCells)
+        {
+            item.Value.Dead();
+        }
+    }
+    
+    void EnableCrossBomb(
+        Character character, 
+        float miningModifier = DefaultMiningModifier, 
+        float timingModifier = DefaultMiningTimingModifier)
+    {
+        StartCoroutine(DisableSplashBomb(character, miningModifier, 3f));
+    }
+    
+    IEnumerator DisableCrossBomb(
+        Character character,
+        float miningModifier = DefaultMiningModifier,
+        float timingModifier = DefaultMiningTimingModifier)
+    {
+        yield return new WaitForSeconds(3f);
+
+        //if(cell.IsExist())
+    }
+    
+    
     void Swap()
     {
         globalController.SwapCharacters();
         // TODO: Write controlling class
         // Which will perform these changes.
     }
+    
 }
