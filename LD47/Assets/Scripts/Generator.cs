@@ -10,6 +10,7 @@ public class Generator : MonoBehaviour
 
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private GameObject characterPrefab;
+    public bool createCharacters = true;
     
     public int rows, columns;
     public Sprite upGrass;
@@ -20,9 +21,12 @@ public class Generator : MonoBehaviour
     private void OnEnable()
     {
         GenerateMatrix();
-        SpawnChar();
-        globalController.char1 = characters[0];
-        globalController.char2 = characters[1];
+        if (createCharacters)
+        {
+            SpawnChar();
+            globalController.char1 = characters[0];
+            globalController.char2 = characters[1];
+        }
     }
 
     private void GenerateMatrix()
