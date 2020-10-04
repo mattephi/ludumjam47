@@ -9,7 +9,8 @@ public class Generator : MonoBehaviour
     public GlobalController globalController;
 
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] private GameObject characterPrefab;
+    [SerializeField] private GameObject character1Prefab;
+    [SerializeField] private GameObject character2Prefab;
     public bool createCharacters = true;
     
     public int rows, columns;
@@ -101,12 +102,12 @@ public class Generator : MonoBehaviour
         var thisTransformPosition = this.transform.position;
         var spawnA = _cellMatrix[0, pointA].reachMe;
         var spawnB = _cellMatrix[rows + 1, pointB].reachMe;; 
-        characters[0] = Instantiate(characterPrefab,spawnA , Quaternion.identity).GetComponent<Character>();
+        characters[0] = Instantiate(character1Prefab,spawnA , Quaternion.identity).GetComponent<Character>();
         characters[0].Init(Cell.Direction.Down, Cell.Direction.Down, _cellMatrix[0, pointA]);
         
         
-        characters[1] = Instantiate(characterPrefab,spawnB , Quaternion.identity).GetComponent<Character>();
+        characters[1] = Instantiate(character2Prefab,spawnB , Quaternion.identity).GetComponent<Character>();
         characters[1].Init(Cell.Direction.Up, Cell.Direction.Up, _cellMatrix[rows + 1, pointB]);
-
+        characters[1].transform.Rotate(new Vector3(0, 0, 1), 180);
     }
 }

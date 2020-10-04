@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce5f4dbca919cf4d9501bb16ca13619, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cell: {fileID: 0}
   globalController: {fileID: 678563508}
   myBonusType: 0
 --- !u!114 &678563511

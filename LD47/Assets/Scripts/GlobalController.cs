@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,15 @@ public class GlobalController : MonoBehaviour
     public Character char1;
     public Character char2;
     private const float DefaultSwapTiming = 1.0f;
+
+    void Start()
+    {
+        
+    }
+
+    private void Update()
+    {
+    }
 
     public void SwapCharacters()
     {
