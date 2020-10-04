@@ -241,8 +241,11 @@ MonoBehaviour:
   globalController: {fileID: 678563508}
   cellPrefab: {fileID: 4075463274846700195, guid: ccd73e443dd1be535aed925e4bfb4498,
     type: 3}
-  characterPrefab: {fileID: 2912484219990650280, guid: 0596ae80c5b6d1974ae85710a1f39761,
+  character1Prefab: {fileID: 2912484219990650280, guid: 0596ae80c5b6d1974ae85710a1f39761,
     type: 3}
+  character2Prefab: {fileID: 5206247210887604075, guid: d79294e59400f4643841c534562f3ea8,
+    type: 3}
+  createCharacters: 1
   rows: 10
   columns: 10
   upGrass: {fileID: 21300000, guid: 1f936f9c851fd43d79ab048f939a4e12, type: 3}
