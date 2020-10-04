@@ -267,14 +267,6 @@ public class Cell : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collider2D other1)
-    {
-        if (other1.gameObject.CompareTag("Player") && myState == State.Deadly)
-        {
-            other1.gameObject.GetComponent<Character>().Die();
-        }
-    }
-
     private void OnTriggerExit2D(Collider2D other1)
     {
         if (other1.CompareTag("Player") && myState == State.Transition)
