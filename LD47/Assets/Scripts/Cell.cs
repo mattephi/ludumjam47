@@ -141,8 +141,6 @@ public class Cell : MonoBehaviour
         }
     }
 
-    public GameObject[] borders = new GameObject[4];
-    public int bordersCount = 0;
 
     struct borderCheckElem
     {
@@ -172,9 +170,15 @@ public class Cell : MonoBehaviour
         new borderCheckElem { mask =  0b_0100_0101, controlVal = 0b_0000_0001}, //l8
     };
 
+    public GameObject[] borders = new GameObject[8];
+    public int bordersCount = 0;
 
     void drawBorders()
     {
+        foreach(var item in borders)
+        {
+            Destroy(item);
+        }
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
@@ -184,8 +188,7 @@ public class Cell : MonoBehaviour
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
         UnityEngine.Debug.Log(i_identifier);
-        #region drawing broders
-
+       
         foreach(var item in borderCheck.Select((value, i) => new { i, value }))
         {
             if ((i_identifier & item.value.mask) == item.value.controlVal)
@@ -198,10 +201,9 @@ public class Cell : MonoBehaviour
                 bordersCount++;
             }
         }
-        #endregion 
     }
 
-    void die() // Debug purposes
+    void Die() // Debug purposes
     {
         switch (myState)
         {
@@ -228,23 +230,7 @@ public class Cell : MonoBehaviour
 
     void OnMouseDown() // Debug purposes
     {
-        die();
-    }
-
-    void Die() // Debug purposes
-    {
-        drawBorders();
-        switch (myState)
-        {
-            //break / return to the player
-            case State.Bonus:
-                break;
-            case State.Surface:
-                break;
-            case State.Resource:
-                break;
-        }
-        myState = State.Transition;
+        Die();
     }
 
     private void OnCollisionEnter2D(Collision2D other1)
