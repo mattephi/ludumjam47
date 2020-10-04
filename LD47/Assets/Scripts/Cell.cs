@@ -98,16 +98,16 @@ public class Cell : MonoBehaviour
         }
     }
 
-    public void GetDamage(Character character)
+    public void GetDamage(Character character, float damage)
     {
-        if (_curHp - character.curDamage > 0)
+        if (_curHp - damage > 0)
         {
-            _curHp -= character.curDamage;
+            _curHp -= damage;
         }
         else
         {
             _curHp = 0f;
-            Die();
+            Die(character);
         }
     }
 
@@ -139,34 +139,37 @@ public class Cell : MonoBehaviour
         }
     }
 
-    void drawBorders()
+    void DrawBorders()
     {
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.myState);
+            //UnityEngine.Debug.Log(item.Value.myState);
             if (item.Value.myState == State.Deadly || item.Value.myState == State.Transition)
                 i_identifier += 1 << getNeighbourIndex(item.Key);
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        UnityEngine.Debug.Log(i_identifier);
+        //UnityEngine.Debug.Log(i_identifier);
 
         #region drawing broders
         //if (i_identifier ~ 0b_1000_0011 == 0b_10000000)
         #endregion     
     }
 
-    void Die() // Debug purposes
+    void Die(Character character) // Debug purposes
     {
-        drawBorders();
+        DrawBorders();
         switch (myState)
         {
             //break / return to the player
             case State.Bonus:
+                myBonus.EnableBonus(character);
                 break;
             case State.Surface:
+                mainSpriteRenderer.sprite = transitionSprite;
                 break;
             case State.Resource:
+                
                 break;
         }
         myState = State.Transition;
@@ -174,7 +177,7 @@ public class Cell : MonoBehaviour
 
     void OnMouseDown() // Debug purposes
     {
-        Die();
+        Die(null);
     }
 
     private void OnCollisionEnter2D(Collision2D other1)

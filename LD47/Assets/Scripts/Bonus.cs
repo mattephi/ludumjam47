@@ -7,12 +7,43 @@ public class Bonus : MonoBehaviour
     [SerializeField] private const float DefaultMiningModifier = 1.5f;
 
     [SerializeField] private const float DefaultMiningTimingModifier = 5.0f;
-    
+
     [SerializeField] private const float DefaultImmortalityTimingModifier = 5.0f;
 
-    [SerializeField] private const bool  DefaultImmortalityModifier = true;
+    [SerializeField] private const bool DefaultImmortalityModifier = true;
 
     [SerializeField] private GlobalController globalController;
+
+    public enum BonusType
+    {
+        Immortality,
+        DamageBonus,
+        Swap
+    }
+
+    public BonusType myBonusType;
+
+    public void EnableBonus(
+        Character character,
+        bool immortalityModifier = DefaultImmortalityModifier,
+        float miningModifier = DefaultMiningModifier, 
+        float timingModifier = DefaultImmortalityTimingModifier)
+    {
+        switch (myBonusType)
+        {
+            case BonusType.Immortality:
+                EnableImmortality(character);
+                break;
+            case BonusType.DamageBonus:
+                EnableDamageBonus(character);
+                break;
+            case BonusType.Swap:
+                //
+                break;
+            default:
+                break;
+        }
+    }
 
     void EnableDamageBonus(
         Character character, 

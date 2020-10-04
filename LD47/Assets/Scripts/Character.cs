@@ -47,7 +47,6 @@ public class Character : MonoBehaviour
     private bool _isValidated;
     #endregion
     
-    
     // Start is called before the first frame update
     void OnEnable()
     {
@@ -93,19 +92,6 @@ public class Character : MonoBehaviour
         }
     }
 
-    private void Mine()
-    {
-        ValidateAndMoveToNextCell();
-        while (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
-        {
-            curCell.myState = Cell.State.Transition;
-            curCell.GetDamage(this);
-        }
-        
-        // Start mining.
-        myState = State.Moving;
-    }
-    
     private void Move()
     {
         print(myDirection);
@@ -131,11 +117,23 @@ public class Character : MonoBehaviour
             case State.Starting:
                 break;
             case State.Mining:
-                
+                if (!_isValidated)
+                {
+                    ValidateAndMoveToNextCell();
+                }
+
+                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
+                {
+                    curCell.myState = Cell.State.Transition;
+                    curCell.GetDamage(this, curDamage * Time.deltaTime);
+                }
+                else
+                {
+                    myState = State.Moving;
+                }
                 break;
             case State.Waiting:
                 myState = State.Mining;
-                Mine();
                 break;
         }
     }
