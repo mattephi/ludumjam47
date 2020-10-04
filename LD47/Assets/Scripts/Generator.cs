@@ -115,11 +115,12 @@ public class Generator : MonoBehaviour
         var thisTransformPosition = this.transform.position;
         var spawnA = thisTransformPosition + new Vector3(pointA * cellSize, 0, 0);
         var spawnB = thisTransformPosition +  new Vector3(pointB *cellSize, -cellSize * (rows + 1),0) ; 
-        characters[0] = Instantiate(characterPrefab,spawnA , Quaternion.identity).GetComponent<Character>();
+        characters[0] = Instantiate(character1Prefab, spawnA , Quaternion.identity).GetComponent<Character>();
         characters[0].Init(Cell.Direction.Down, Cell.Direction.Down, _cellMatrix[0, pointA]);
         characters[0].GlobalController = globalController;
         
-        characters[1] = Instantiate(characterPrefab,spawnB , Quaternion.identity).GetComponent<Character>();
+        characters[1] = Instantiate(character2Prefab, spawnB , Quaternion.identity).GetComponent<Character>();
+        characters[1].transform.Rotate(0, 0, 180);
         characters[1].Init(Cell.Direction.Up, Cell.Direction.Up, _cellMatrix[rows + 1, pointB]);
         characters[1].GlobalController = globalController;
 
