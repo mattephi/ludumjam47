@@ -111,7 +111,6 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character, float damage)
     {
-        print("Cur HP: " + _curHp);
         if (_curHp - damage > 0)
         {
             _curHp -= damage;
@@ -254,7 +253,7 @@ public class Cell : MonoBehaviour
     }
 
 
-private void OnCollisionEnter2D(Collision2D other1)
+    private void OnCollisionEnter2D(Collision2D other1)
     {
         if (other1.gameObject.CompareTag("Player") && myState == State.Deadly)
         {
