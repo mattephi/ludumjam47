@@ -1,4 +1,4 @@
-﻿// using System;
+﻿﻿// using System;
 // using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,7 +10,6 @@ public class Cell : MonoBehaviour
 {
     #region Initialization
     public Sprite[] borderSprites;
-    public GameObject transitionCover;
     //[SerializeField]private Dictionary<State, Sprite> _stateSprites = new Dictionary<State, Sprite>();
 
     public Vector3 reachMe;
@@ -55,25 +54,25 @@ public class Cell : MonoBehaviour
     {
         _curHp = maxCellHp;
         this.myState = myState;
-        SetSprite(this.myState);
+        SetState(this.myState);
     }
     
     public void Init(State myState, Bonus myBonus)
     {
         this.myBonus = myBonus;
         this.myState = myState;
-        SetSprite(this.myState);
+        SetState(this.myState);
     }
     
     public void Init(State myState, Resource myResource)
     {
         this.myResource = myResource;
         this.myState = myState;
-        SetSprite(this.myState);
+        SetState(this.myState);
     }
     #endregion
     
-    public void SetSprite(State state)
+    public void SetState(State state)
     {
         switch (state)
         {
@@ -207,8 +206,7 @@ public class Cell : MonoBehaviour
             if ((i_identifier & item.value.Mask) == item.value.ControlVal)
             {
                 borders[bordersCount] = new GameObject();
-                borders[bordersCount].name = "Border";
-                borders[bordersCount].transform.parent = gameObject.transform;
+                borders[bordersCount].transform.parent = transform;
                 borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
                 borders[bordersCount].GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -218,7 +216,7 @@ public class Cell : MonoBehaviour
         }
     }
 
-    void Die(Character character)
+    void Die(Character character) // Debug purposes
     {
         switch (myState)
         {
@@ -231,11 +229,11 @@ public class Cell : MonoBehaviour
                 myBonus.EnableBonus(character);
                 break;
             case State.Resource:
+                myResource.Enable(character);
                 break;
         }
-        SetSprite(State.Transition);
+        SetState(State.Transition);
         drawBorders();
-        GameObject coverGO = Instantiate(transitionCover, transform.position, Quaternion.identity); //transition
 
         foreach (var item in NeighborCells)
         {
@@ -267,14 +265,44 @@ public class Cell : MonoBehaviour
     {
         if (other1.CompareTag("Player") && myState == State.Transition)
         {
-            SetSprite(State.Deadly);
+            SetState(State.Deadly);
         }
     }
 
-    public void Dead()
+    public void Explode()
     {
-        //remove bonuses // resources
-        SetSprite(State.Deadly);
+        RemoveResBonSurf();
+        SetState(State.Deadly);
     }
 
+    public void AddChild(GameObject gameObject)
+    {
+        gameObject.transform.parent = transform;
+    }
+
+    public void RemoveResBonSurf()
+    {
+        if (!ReferenceEquals(myBonus, null))
+        {
+            Destroy(myBonus.gameObject);
+        }
+
+        if (!ReferenceEquals(myResource, null))
+        {
+            Destroy(myResource.gameObject);   
+        }
+    }
+
+    public void HideResBonSurf()
+    {
+        if (!ReferenceEquals(myBonus, null))
+        {
+            myBonus.gameObject.SetActive(false);
+        }
+
+        if (!ReferenceEquals(myResource, null))
+        {
+            myResource.gameObject.SetActive(false);   
+        }
+    }
 }

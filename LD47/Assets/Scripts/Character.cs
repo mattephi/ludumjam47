@@ -1,4 +1,4 @@
-﻿// using System;
+﻿﻿// using System;
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +13,10 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 100.0f;
+    [SerializeField] private float minDamage = 10f;
     [SerializeField] private float movingSpeed = 2f;
 
-    public float curDamage = 100.0f;
+    public float curDamage;
     private bool iFixit = false;
     
     
@@ -41,20 +41,20 @@ public class Character : MonoBehaviour
         this.baseDirection = baseDirection;
         this.myDirection = myDirection;
         this.curCell = curCell;
-        transform.position = Vector3.MoveTowards(transform.position, curCell.reachMe, Time.deltaTime * movingSpeed);
         curDamage = minDamage;
         myState = State.Waiting;
     }
 
     private bool _isValidated = false;
     private float _lastDamage = 0f;
-    private float DamageDeltaTime = 1f;
+    private float DamageDeltaTime = 0.01f;
 
     public Character(bool isValidated)
     {
         _isValidated = isValidated;
     }
 
+    public GlobalController GlobalController;
     #endregion
     
     // Start is called before the first frame update
@@ -95,18 +95,13 @@ public class Character : MonoBehaviour
                     myDirection = Cell.Direction.Right;
                 }
             }
-            if (!newCell.IsExist(Cell.Direction.Up) && baseDirection != Cell.Direction.Down)
+            if (!newCell.IsExist(Cell.Direction.Up))
             {
                 baseDirection = Cell.Direction.Down;
-                this.transform.Rotate(new Vector3(0, 0, 1), 180);
             }
             else
             {
-                if (myDirection != Cell.Direction.Up)
-                {
-                    baseDirection = Cell.Direction.Up;
-                    this.transform.Rotate(new Vector3(0, 0, 1), 180);
-                }
+                baseDirection = Cell.Direction.Up;
             }
 
             if (!newCell.IsExist(Cell.Direction.Right))
@@ -131,7 +126,7 @@ public class Character : MonoBehaviour
 
     private void Move()
     {
-        if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
+        if (curCell.myState != Cell.State.Transition)
         {
             return;
         }
@@ -163,10 +158,10 @@ public class Character : MonoBehaviour
                     ValidateAndMoveToNextCell();
                 }
 
-                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
+                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint && Time.realtimeSinceStartup - _lastDamage > DamageDeltaTime)
                 {
-                    print("Time: " + Time.deltaTime + " damage: " + curDamage + " real damage: " + curDamage * Time.deltaTime);
-                    curCell.GetDamage(this, curDamage * Time.deltaTime);
+                    curCell.GetDamage(this, curDamage);
+                    _lastDamage = Time.realtimeSinceStartup;
                 }
                 else if(curCell.myState == Cell.State.Transition || curCell.myState == Cell.State.StartingPoint)
                 {

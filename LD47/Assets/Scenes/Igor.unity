@@ -248,6 +248,14 @@ MonoBehaviour:
   upGrass: {fileID: 21300000, guid: 1f936f9c851fd43d79ab048f939a4e12, type: 3}
   downGrass: {fileID: 21300000, guid: 86533985dd6aa49579beb3597e9b666b, type: 3}
   characters: []
+  Ore1: {fileID: 0}
+  Ore2: {fileID: 0}
+  Ore3: {fileID: 0}
+  DamageBoost: {fileID: 0}
+  SplashBomb: {fileID: 0}
+  CrossBomb: {fileID: 0}
+  Swap: {fileID: 0}
+  Immortality: {fileID: 0}
 --- !u!114 &678563508
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,7 +298,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cell: {fileID: 0}
-  globalController: {fileID: 678563508}
   myBonusType: 0
 --- !u!114 &678563511
 MonoBehaviour:

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
@@ -13,8 +13,6 @@ public class Bonus : MonoBehaviour
 
     [SerializeField] private const bool DefaultImmortalityModifier = true;
     [SerializeField] private Cell cell;
-
-    [SerializeField] private GlobalController globalController;
 
     public enum BonusType
     {
@@ -43,11 +41,18 @@ public class Bonus : MonoBehaviour
                 EnableDamageBonus(character);
                 break;
             case BonusType.Swap:
-                //
+                EnableImmortality(character);
+                break;
+            case BonusType.CrossBomb:
+                EnableCrossBomb(character);
+                break;
+            case BonusType.SplashBomb:
+                EnableSplashBomb(character);
                 break;
             default:
                 break;
         }
+        character.curCell.RemoveResBonSurf();
     }
 
     void EnableDamageBonus(
@@ -103,8 +108,9 @@ public class Bonus : MonoBehaviour
 
         foreach (KeyValuePair<Cell.Direction, Cell> item in cell.NeighborCells)
         {
-            item.Value.Dead();
+            item.Value.Explode();
         }
+        cell.Explode();
     }
     
     void EnableCrossBomb(
@@ -112,7 +118,7 @@ public class Bonus : MonoBehaviour
         float miningModifier = DefaultMiningModifier, 
         float timingModifier = DefaultMiningTimingModifier)
     {
-        StartCoroutine(DisableSplashBomb(character, miningModifier, 3f));
+        StartCoroutine(DisableCrossBomb(character, miningModifier, 3f));
     }
     
     IEnumerator DisableCrossBomb(
@@ -121,16 +127,41 @@ public class Bonus : MonoBehaviour
         float timingModifier = DefaultMiningTimingModifier)
     {
         yield return new WaitForSeconds(3f);
+        
+        if (cell.IsExist(Cell.Direction.Up))
+        {
+            cell.NeighborCells[Cell.Direction.Up].Explode();
+        }
+        if (cell.IsExist(Cell.Direction.Down))
+        {
+            cell.NeighborCells[Cell.Direction.Down].Explode();
+        }
+        if (cell.IsExist(Cell.Direction.Right))
+        {
+            cell.NeighborCells[Cell.Direction.Right].Explode();
+        }
+        if (cell.IsExist(Cell.Direction.Left))
+        {
+            cell.NeighborCells[Cell.Direction.Left].Explode();
+        }
+        cell.Explode();
+    }
 
-        //if(cell.IsExist())
-    }
-    
-    
-    void Swap()
+    void EnableSwap(
+        Character character, 
+        float miningModifier = DefaultMiningModifier, 
+        float timingModifier = DefaultMiningTimingModifier)
     {
-        globalController.SwapCharacters();
-        // TODO: Write controlling class
-        // Which will perform these changes.
+        StartCoroutine(DisableCrossBomb(character, miningModifier, 0.5f));
     }
-    
+
+    IEnumerator DisableSwap(
+        Character character,
+        float miningModifier = DefaultMiningModifier,
+        float timingModifier = DefaultMiningTimingModifier)
+    {
+        yield return new WaitForSeconds(0.5f);
+        character.GlobalController.SwapCharacters();
+    }
+
 }

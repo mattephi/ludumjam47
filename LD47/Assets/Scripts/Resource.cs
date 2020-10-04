@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,9 +11,10 @@ public class Resource : MonoBehaviour
     public int value = 1;
     public float coefficient = 1.05f;
 
-    public void Mine(Character character)
+    public void Enable(Character character)
     {
         character.curDamage *= coefficient;
-        Destroy(this.gameObject);
+        character.curCell.RemoveResBonSurf();
+        character.curCell.SetState(Cell.State.Transition);
     }
 }
