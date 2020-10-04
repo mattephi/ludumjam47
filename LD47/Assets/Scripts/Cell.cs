@@ -10,11 +10,11 @@ public class Cell : MonoBehaviour
     public Sprite[] borderSprites;
     public Dictionary<State, Sprite> StateSprites = new Dictionary<State, Sprite>();
 
-    [SerializeField] private Sprite _surfaceSprite;
-    [SerializeField] private Sprite _transitionSprite;
-    [SerializeField] private Sprite _deadlySprite;
+    [SerializeField] private Sprite surfaceSprite;
+    [SerializeField] private Sprite transitionSprite;
+    [SerializeField] private Sprite deadlySprite;
     
-    public SpriteRenderer MainSpriteRenderer;
+    public SpriteRenderer mainSpriteRenderer;
     public enum Direction
     {
         UpLeft,
@@ -27,7 +27,7 @@ public class Cell : MonoBehaviour
         Left
     };
     
-    public Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
+    public readonly Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
 
     public enum State
     {
@@ -41,43 +41,43 @@ public class Cell : MonoBehaviour
     }
     public State MyState;
 
-    [SerializeField] private float MaxCellHp = 100f;
-    private const float minCellHp = 0f;
-    private float curHp;
+    [SerializeField] private float maxCellHp = 100f;
+    private const float MINCellHp = 0f;
+    private float _curHp;
 
-    public Bonus MyBonus;
-    public Resource MyResource;
+    public Bonus myBonus;
+    public Resource myResource;
     public Cell(State myState)
     {
         initDict();
         MyState = myState;
-        MainSpriteRenderer = GetComponent<SpriteRenderer>();
-        MainSpriteRenderer.sprite = StateSprites[MyState];
+        mainSpriteRenderer = GetComponent<SpriteRenderer>();
+        mainSpriteRenderer.sprite = StateSprites[MyState];
     }
     
     public Cell(State myState, Bonus myBonus)
     {
         initDict();
-        MyBonus = myBonus;
+        this.myBonus = myBonus;
         MyState = myState;
-        MainSpriteRenderer = GetComponent<SpriteRenderer>();
-        MainSpriteRenderer.sprite = StateSprites[MyState];
+        mainSpriteRenderer = GetComponent<SpriteRenderer>();
+        mainSpriteRenderer.sprite = StateSprites[MyState];
     }
     
     public Cell(State myState, Resource myResource)
     {
         initDict();
-        MyResource = myResource;
+        this.myResource = myResource;
         MyState = myState;
-        MainSpriteRenderer = GetComponent<SpriteRenderer>();
-        MainSpriteRenderer.sprite = StateSprites[MyState];
+        mainSpriteRenderer = GetComponent<SpriteRenderer>();
+        mainSpriteRenderer.sprite = StateSprites[MyState];
     }
 
     void initDict()
     {
-        StateSprites[State.Surface] = _surfaceSprite;
-        StateSprites[State.Transition] = _transitionSprite;
-        StateSprites[State.Deadly] = _deadlySprite;
+        StateSprites[State.Surface] = surfaceSprite;
+        StateSprites[State.Transition] = transitionSprite;
+        StateSprites[State.Deadly] = deadlySprite;
     }
     #endregion
 
@@ -87,26 +87,26 @@ public class Cell : MonoBehaviour
         {
             case State.Bonus:
             case State.Surface:
-                curHp = MaxCellHp;
+                _curHp = maxCellHp;
                 break;
             case State.Resource:
-                curHp = MyResource.value * MaxCellHp;
+                _curHp = myResource.value * maxCellHp;
                 break;
             default:
-                curHp = MaxCellHp;
+                _curHp = maxCellHp;
                 break;
         }
     }
 
     public void GetDamage(Character character)
     {
-        if (curHp - character.CurDamage > 0)
+        if (_curHp - character.CurDamage > 0)
         {
-            curHp -= character.CurDamage;
+            _curHp -= character.CurDamage;
         }
         else
         {
-            curHp = 0f;
+            _curHp = 0f;
             die();
         }
     }
