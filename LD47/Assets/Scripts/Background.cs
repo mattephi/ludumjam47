@@ -5,8 +5,8 @@ using UnityEngine;
 public class Background : MonoBehaviour
 {
 
-    public GameObject background1;
-    public GameObject background2;
+    public GameObject background;
+    public GameObject mainObject;
     private GameObject back1;
     private GameObject back2;
     private const float speed = 0.5f;
@@ -17,8 +17,8 @@ public class Background : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        back1 = Instantiate(background1, new Vector3(-15, 0, 0), Quaternion.identity);
-        back2 = Instantiate(background2, back1.transform.position + new Vector3(background1.GetComponent<Renderer>().bounds.size.x, 0, 0), Quaternion.identity);
+        back1 = Instantiate(background, new Vector3(mainObject.transform.position.x - 3, mainObject.transform.position.y - 3, 0), Quaternion.identity);
+        back2 = Instantiate(background, back1.transform.position + new Vector3(background.GetComponent<Renderer>().bounds.size.x, 0, 0), Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -38,7 +38,7 @@ public class Background : MonoBehaviour
             var temp = back1;
             back1 = back2;
             back2 = temp;
-            back1.transform.position = new Vector3(back1.transform.position.x - 2 * background1.GetComponent<Renderer>().bounds.size.x, back2.transform.position.z);
+            back1.transform.position = new Vector3(back1.transform.position.x - 2 * background.GetComponent<Renderer>().bounds.size.x, back2.transform.position.z);
         }
     }
 }

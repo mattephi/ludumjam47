@@ -208,6 +208,7 @@ public class Cell : MonoBehaviour
                 borders[bordersCount].transform.parent = gameObject.transform;
                 borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
+                borders[bordersCount].GetComponent<SpriteRenderer>().sortingOrder = 1;
                 //UnityEngine.Debug.Log(borders[bordersCount]);
                 bordersCount++;
             }
@@ -232,6 +233,7 @@ public class Cell : MonoBehaviour
         }
         SetSprite(State.Transition);
         drawBorders();
+<<<<<<< HEAD
         foreach (var item in NeighborCells)
         {
             //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
@@ -240,6 +242,18 @@ public class Cell : MonoBehaviour
                 item.Value.drawBorders();
             }
         }
+=======
+
+        foreach (var item in NeighborCells)
+        {
+            if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
+            {
+                //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
+                item.Value.drawBorders();
+            }
+        }
+            
+>>>>>>> main
     }
 
     void OnMouseOver() // Debug purposes
