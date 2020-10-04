@@ -131,6 +131,8 @@ GameObject:
   m_Component:
   - component: {fileID: 538118579}
   - component: {fileID: 538118578}
+  - component: {fileID: 538118581}
+  - component: {fileID: 538118580}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -151,11 +153,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSize: 1
-  Gen: {fileID: 538118578}
+  GlobalController: {fileID: 538118580}
   CellPrefab: {fileID: 4075463274846700195, guid: ccd73e443dd1be535aed925e4bfb4498,
     type: 3}
-  rows: 30
-  columns: 30
+  CharacterPrefab: {fileID: 2912484219990650280, guid: 0596ae80c5b6d1974ae85710a1f39761,
+    type: 3}
+  rows: 5
+  columns: 5
   StartCellSprite: {fileID: 21300000, guid: 692a43f29000009bba3266f821681f0e, type: 3}
   Characters: []
 --- !u!4 &538118579
@@ -166,12 +170,40 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 538118577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.012118699, y: 2.58, z: -0.0122054145}
+  m_LocalPosition: {x: -3.71, y: 3.19, z: -0.0122054145}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &538118580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538118577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4ecb0f1134d417fb24dbe11f8411c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _generator: {fileID: 538118578}
+  char1: {fileID: 0}
+  char2: {fileID: 0}
+--- !u!114 &538118581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 538118577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291fa4511bd06b3a0b09327b00348e48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  globalController: {fileID: 538118580}
 --- !u!1 &1315346566
 GameObject:
   m_ObjectHideFlags: 0
