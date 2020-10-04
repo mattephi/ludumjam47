@@ -33,12 +33,12 @@ public class Generator : MonoBehaviour
         {
             Vector3 spawnPoint = thisTransformPosition + new Vector3(j * cellSize, 0, 0);
             _cellMatrix[0, j] = Instantiate(cellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
-            _cellMatrix[0, j].myState = Cell.State.StartingPoint;
+            _cellMatrix[0, j].Init(Cell.State.StartingPoint);
             //Debug.Log("" + 0 + " " + j + " " + CellMatrix[0, j]);
 
             spawnPoint = thisTransformPosition + new Vector3(j * cellSize, -cellSize * (rows + 1), 0);
             _cellMatrix[rows + 1, j] = Instantiate(cellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
-            _cellMatrix[rows + 1, j].myState = Cell.State.StartingPoint;
+            _cellMatrix[rows + 1, j].Init(Cell.State.StartingPoint);
             //Debug.Log("" + (rows + 1) + " " + j + " " + CellMatrix[rows + 1, j]);
 
             _cellMatrix[rows + 1, j].GetComponent<SpriteRenderer>().sprite = startCellSprite;
@@ -51,7 +51,7 @@ public class Generator : MonoBehaviour
             {
                 Vector3 spawnPoint = thisTransformPosition + new Vector3(j * cellSize, -i * cellSize, 0);
                 _cellMatrix[i, j] = Instantiate(cellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
-                _cellMatrix[i, j].myState = Cell.State.Surface;
+                _cellMatrix[i, j].Init(Cell.State.Surface);
                 Debug.Log("" + i + " " + j + " " + _cellMatrix[i, j]);
             }
         }
