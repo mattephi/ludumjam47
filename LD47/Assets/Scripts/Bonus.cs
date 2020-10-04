@@ -1,5 +1,6 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using TreeEditor;
 using UnityEngine;
 
 public class Bonus : MonoBehaviour
@@ -11,7 +12,6 @@ public class Bonus : MonoBehaviour
     [SerializeField] private const float DefaultImmortalityTimingModifier = 5.0f;
 
     [SerializeField] private const bool DefaultImmortalityModifier = true;
-    
     [SerializeField] private Cell cell;
 
     [SerializeField] private GlobalController globalController;
@@ -24,6 +24,7 @@ public class Bonus : MonoBehaviour
         CrossBomb,
         SplashBomb
     }
+
     public BonusType myBonusType;
 
     public void EnableBonus(
@@ -42,21 +43,13 @@ public class Bonus : MonoBehaviour
                 EnableDamageBonus(character);
                 break;
             case BonusType.Swap:
-                EnableImmortality(character);
-                break;
-            case BonusType.CrossBomb:
-                EnableCrossBomb(character);
-                break;
-            case BonusType.SplashBomb:
-                EnableSplashBomb(character, 3f);
+                //
                 break;
             default:
                 break;
         }
-        cell.HideResBonSurf();
     }
 
-    
     void EnableDamageBonus(
         Character character, 
         float miningModifier = DefaultMiningModifier, 
@@ -73,11 +66,7 @@ public class Bonus : MonoBehaviour
     {
         yield return new WaitForSeconds(timingModifier);
         character.curDamage /= miningModifier;
-        character.curCell.RemoveResBonSurf();
     }
-    
-    
-    
     
     void EnableImmortality(
         Character character,
@@ -94,44 +83,36 @@ public class Bonus : MonoBehaviour
         float timingModifier = DefaultImmortalityTimingModifier)
     {
         yield return new WaitForSeconds(timingModifier);
-        character.curCell.RemoveResBonSurf();
         character.immortal = !immortalityModifier;
     }
 
-    
-    
-    
     void EnableSplashBomb(
-        Character character,
-        float timingModifier)
+        Character character, 
+        float miningModifier = DefaultMiningModifier, 
+        float timingModifier = DefaultMiningTimingModifier)
     {
-        StartCoroutine(DisableSplashBomb(character,timingModifier));
+        StartCoroutine(DisableSplashBomb(character, miningModifier, 3f));
     }
 
     IEnumerator DisableSplashBomb(
         Character character,
-        float timingModifier)
+        float miningModifier = DefaultMiningModifier,
+        float timingModifier = DefaultMiningTimingModifier)
     {
-        yield return new WaitForSeconds(timingModifier);
+        yield return new WaitForSeconds(3f);
 
-        foreach (var item in cell.NeighborCells)
+        foreach (KeyValuePair<Cell.Direction, Cell> item in cell.NeighborCells)
         {
-            if(cell.myState != Cell.State.StartingPoint)
-                item.Value.Explode(character);
+            item.Value.Dead();
         }
-        character.curCell.RemoveResBonSurf();
-        cell.Explode(character);
     }
-    
-    
-    
     
     void EnableCrossBomb(
         Character character, 
         float miningModifier = DefaultMiningModifier, 
         float timingModifier = DefaultMiningTimingModifier)
     {
-        StartCoroutine(DisableCrossBomb(character, miningModifier, 3f));
+        StartCoroutine(DisableSplashBomb(character, miningModifier, 3f));
     }
     
     IEnumerator DisableCrossBomb(
@@ -140,46 +121,16 @@ public class Bonus : MonoBehaviour
         float timingModifier = DefaultMiningTimingModifier)
     {
         yield return new WaitForSeconds(3f);
-        
-        if (cell.IsExist(Cell.Direction.Up))
-        {
-            cell.NeighborCells[Cell.Direction.Up].Explode(character);
-        }
-        if (cell.IsExist(Cell.Direction.Down))
-        {
-            cell.NeighborCells[Cell.Direction.Down].Explode(character);
-        }
-        if (cell.IsExist(Cell.Direction.Right))
-        {
-            cell.NeighborCells[Cell.Direction.Right].Explode(character);
-        }
-        if (cell.IsExist(Cell.Direction.Left))
-        {
-            cell.NeighborCells[Cell.Direction.Left].Explode(character);
-        }
-        character.curCell.RemoveResBonSurf();
-        cell.Explode(character);
-    }
 
+        //if(cell.IsExist())
+    }
     
     
-    
-    void EnableSwap(
-        Character character, 
-        float miningModifier = DefaultMiningModifier, 
-        float timingModifier = DefaultMiningTimingModifier)
+    void Swap()
     {
-        StartCoroutine(DisableCrossBomb(character, miningModifier, 0.5f));
+        globalController.SwapCharacters();
+        // TODO: Write controlling class
+        // Which will perform these changes.
     }
-
-    IEnumerator DisableSwap(
-        Character character,
-        float miningModifier = DefaultMiningModifier,
-        float timingModifier = DefaultMiningTimingModifier)
-    {
-        yield return new WaitForSeconds(0.5f);
-        character.curCell.RemoveResBonSurf();
-        character.GlobalController.SwapCharacters();
-    }
-
+    
 }

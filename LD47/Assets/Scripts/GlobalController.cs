@@ -1,4 +1,4 @@
-﻿    using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -17,7 +17,6 @@ public class GlobalController : MonoBehaviour
 
     private void Update()
     {
-        char1.GetComponent<Animator>().Play("digs-down");
     }
 
     public void SwapCharacters()

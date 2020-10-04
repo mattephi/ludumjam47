@@ -1,7 +1,5 @@
-// using System;
+﻿// using System;
 // using System.Collections;
-
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -57,25 +55,25 @@ public class Cell : MonoBehaviour
     {
         _curHp = maxCellHp;
         this.myState = myState;
-        SetState(this.myState);
+        SetSprite(this.myState);
     }
     
     public void Init(State myState, Bonus myBonus)
     {
         this.myBonus = myBonus;
         this.myState = myState;
-        SetState(this.myState);
+        SetSprite(this.myState);
     }
     
     public void Init(State myState, Resource myResource)
     {
         this.myResource = myResource;
         this.myState = myState;
-        SetState(this.myState);
+        SetSprite(this.myState);
     }
     #endregion
     
-    public void SetState(State state)
+    public void SetSprite(State state)
     {
         switch (state)
         {
@@ -233,10 +231,9 @@ public class Cell : MonoBehaviour
                 myBonus.EnableBonus(character);
                 break;
             case State.Resource:
-                myResource.Enable(character);
                 break;
         }
-        SetState(State.Transition);
+        SetSprite(State.Transition);
         drawBorders();
         GameObject coverGO = Instantiate(transitionCover, transform.position, Quaternion.identity); //transition
 
@@ -251,12 +248,11 @@ public class Cell : MonoBehaviour
             
     }
 
-    /*
     void OnMouseOver() // Debug purposes
     {
         if (Input.GetKey(KeyCode.Mouse0))
             Die(null);
-    }*/
+    }
 
 
     private void OnCollisionEnter2D(Collision2D other1)
@@ -266,52 +262,19 @@ public class Cell : MonoBehaviour
             other1.gameObject.GetComponent<Character>().Die();
         }
     }
-
+    
     private void OnTriggerExit2D(Collider2D other1)
     {
         if (other1.CompareTag("Player") && myState == State.Transition)
         {
-            SetState(State.Deadly);
+            SetSprite(State.Deadly);
         }
     }
 
-    public void Explode(Character character)
+    public void Dead()
     {
-        if(myState == State.StartingPoint)
-            return;
-        Die(character);
-        RemoveResBonSurf();
-        SetState(State.Deadly);
+        //remove bonuses // resources
+        SetSprite(State.Deadly);
     }
 
-    public void AddChild(GameObject gameObject)
-    {
-        gameObject.transform.parent = transform;
-    }
-
-    public void RemoveResBonSurf()
-    {
-        if (!ReferenceEquals(myBonus, null))
-        {
-            Destroy(myBonus.gameObject);
-        }
-
-        if (!ReferenceEquals(myResource, null))
-        {
-            Destroy(myResource.gameObject);   
-        }
-    }
-
-    public void HideResBonSurf()
-    {
-        if (!ReferenceEquals(myBonus, null))
-        {
-            myBonus.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        }
-
-        if (!ReferenceEquals(myResource, null))
-        {
-            myResource.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        }
-    }
 }

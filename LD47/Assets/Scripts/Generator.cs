@@ -1,4 +1,4 @@
-// using System;
+﻿// using System;
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +11,7 @@ public class Generator : MonoBehaviour
     [SerializeField] private GameObject cellPrefab;
     [SerializeField] private GameObject character1Prefab;
     [SerializeField] private GameObject character2Prefab;
-    public bool generateNow = false;
+    public bool createCharacters = true;
     
     public int rows, columns;
     public Sprite upGrass;
@@ -19,25 +19,18 @@ public class Generator : MonoBehaviour
     public Character[] characters;
     private Cell[,] _cellMatrix;
 
-    [SerializeField] private GameObject Ore1;
-    [SerializeField] private GameObject Ore2;
-    [SerializeField] private GameObject Ore3;
-    [SerializeField] private GameObject DamageBoost;
-    [SerializeField] private GameObject SplashBomb;
-    [SerializeField] private GameObject CrossBomb;
-    [SerializeField] private GameObject Swap;
-    [SerializeField] private GameObject Immortality;
-
     private void OnEnable()
     {
-        if (generateNow)
-        { 
-            GenerateMatrix(rows, columns);
+        GenerateMatrix();
+        if (createCharacters)
+        {
             SpawnChar();
+            globalController.char1 = characters[0];
+            globalController.char2 = characters[1];
         }
     }
 
-    public void GenerateMatrix(int rows, int columns)
+    private void GenerateMatrix()
     {
         _cellMatrix = new Cell[rows + 2, columns];
         //just for starting el-s
@@ -72,8 +65,6 @@ public class Generator : MonoBehaviour
                 _cellMatrix[i, j].Init(Cell.State.Surface);
                 var dx = _cellMatrix[0, j].GetComponent<Renderer>().bounds.size.x;
                 _cellMatrix[i, j].reachMe = spawnPoint;
-                
-                SpawnBonRes(_cellMatrix[i, j]);
                 //Debug.Log("" + i + " " + j + " " + _cellMatrix[i, j]);
             }
         }
@@ -99,85 +90,24 @@ public class Generator : MonoBehaviour
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownRight] = _cellMatrix[i1 + 1, i2 + 1];
                 if (i1 < rows + 1 && i2 > 0)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownLeft] = _cellMatrix[i1 + 1, i2 - 1];
-                //Debug.Log(_cellMatrix[i1, i2].NeighborCells);         
+                //Debug.Log(_cellMatrix[i1, i2].NeighborCells);
             }
     }
-
-    public void SpawnChar()
+    
+    private void SpawnChar()
     {
         characters = new Character[2];
         var pointA = Random.Range(0, columns);
         var pointB = Random.Range(0, columns);
         var thisTransformPosition = this.transform.position;
-        var spawnA = thisTransformPosition + new Vector3(pointA * cellSize, 0, 0);
-        var spawnB = thisTransformPosition +  new Vector3(pointB *cellSize, -cellSize * (rows + 1),0) ; 
-        characters[0] = Instantiate(character1Prefab, spawnA , Quaternion.identity).GetComponent<Character>();
+        var spawnA = _cellMatrix[0, pointA].reachMe;
+        var spawnB = _cellMatrix[rows + 1, pointB].reachMe;; 
+        characters[0] = Instantiate(character1Prefab,spawnA , Quaternion.identity).GetComponent<Character>();
         characters[0].Init(Cell.Direction.Down, Cell.Direction.Down, _cellMatrix[0, pointA]);
-        characters[0].GlobalController = globalController;
         
-        characters[1] = Instantiate(character2Prefab, spawnB , Quaternion.identity).GetComponent<Character>();
-        characters[1].transform.Rotate(0, 0, 180);
+        
+        characters[1] = Instantiate(character2Prefab,spawnB , Quaternion.identity).GetComponent<Character>();
         characters[1].Init(Cell.Direction.Up, Cell.Direction.Up, _cellMatrix[rows + 1, pointB]);
-        characters[1].GlobalController = globalController;
-
-        globalController.char1 = characters[0];
-        globalController.char2 = characters[1];
+        characters[1].transform.Rotate(new Vector3(0, 0, 1), 180);
     }
-
-    private void SpawnBonRes(Cell cell)
-    {
-        GameObject obj = null;
-        float prob = UnityEngine.Random.Range(0.0f, 100.0f);
-        if (prob <= 5f)
-        {
-            obj = Instantiate(Ore1, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Resource;
-            cell.myResource = obj.GetComponent<Resource>();
-        }
-        else if (prob <= 8f)
-        {
-            obj = Instantiate(Ore2, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Resource;
-            cell.myResource = obj.GetComponent<Resource>();
-        }
-        else if(prob <= 9f)
-        {
-            obj = Instantiate(Ore3, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Resource;
-            cell.myResource = obj.GetComponent<Resource>();
-        }
-        else if(prob <= 13f)
-        {
-            obj = Instantiate(DamageBoost, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Bonus;
-            cell.myBonus = obj.GetComponent<Bonus>();
-        }
-        else if(prob <= 15.5f)
-        {
-            obj = Instantiate(SplashBomb, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Bonus;
-            cell.myBonus = obj.GetComponent<Bonus>();
-        }
-        else if(prob <= 18f)
-        {
-            obj = Instantiate(CrossBomb, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Bonus;
-            cell.myBonus = obj.GetComponent<Bonus>();
-        }
-        else if(prob <= 19f)
-        {
-            obj = Instantiate(Swap, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Bonus;
-            cell.myBonus = obj.GetComponent<Bonus>();
-        }
-        else if(prob <= 20f)
-        {
-            obj = Instantiate(Immortality, cell.reachMe, Quaternion.identity);
-            cell.myState = Cell.State.Bonus;
-            cell.myBonus = obj.GetComponent<Bonus>();
-        }
-        if(obj != null)
-            cell.AddChild(obj);
-    }
-    
 }

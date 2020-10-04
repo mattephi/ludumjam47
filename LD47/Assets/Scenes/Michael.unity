@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 538118580}
   - component: {fileID: 538118582}
   m_Layer: 0
-  m_Name: Main Object
+  m_Name: GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -157,20 +157,13 @@ MonoBehaviour:
   globalController: {fileID: 538118580}
   cellPrefab: {fileID: 4075463274846700195, guid: ccd73e443dd1be535aed925e4bfb4498,
     type: 3}
-  characterPrefab: {fileID: 0}
+  characterPrefab: {fileID: 2912484219990650280, guid: 0596ae80c5b6d1974ae85710a1f39761,
+    type: 3}
   rows: 10
   columns: 10
-  upGrass: {fileID: 21300000, guid: 1f936f9c851fd43d79ab048f939a4e12, type: 3}
-  downGrass: {fileID: 21300000, guid: 86533985dd6aa49579beb3597e9b666b, type: 3}
+  upGrass: {fileID: 0}
+  downGrass: {fileID: 0}
   characters: []
-  Ore1: {fileID: 0}
-  Ore2: {fileID: 0}
-  Ore3: {fileID: 0}
-  DamageBoost: {fileID: 0}
-  SplashBomb: {fileID: 0}
-  CrossBomb: {fileID: 0}
-  Swap: {fileID: 0}
-  Immortality: {fileID: 0}
 --- !u!4 &538118579
 Transform:
   m_ObjectHideFlags: 0
