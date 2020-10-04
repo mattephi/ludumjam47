@@ -13,8 +13,8 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 2f;
-    [SerializeField] private float movingSpeed = 2.0f;
+    [SerializeField] private float minDamage = 0.01f;
+    [SerializeField] private float movingSpeed = 0.01f;
 
     public float curDamage;
     
@@ -44,7 +44,7 @@ public class Character : MonoBehaviour
         myState = State.Waiting;
     }
 
-    private bool _isValidated;
+    private bool _isValidated = false;
     #endregion
     
     // Start is called before the first frame update
@@ -56,46 +56,66 @@ public class Character : MonoBehaviour
 
     private void ValidateAndMoveToNextCell()
     {
+        var newCell = curCell.NeighborCells[myDirection];
         if (!curCell.IsExist(myDirection) || !curCell.IsAvailable(myDirection))
         {
-            print("Die");
             Die();
-        }
-        
-        if (curCell.myState == Cell.State.StartingPoint)
-        {
-            switch (baseDirection)
-            {
-                //change the BaseDirection
-                case Cell.Direction.Up:
-                    baseDirection = Cell.Direction.Down;
-                    break;
-                case Cell.Direction.Down:
-                    baseDirection = Cell.Direction.Up;
-                    break;
-            }
-
-            //turn back from borders
-            if (!curCell.IsExist(Cell.Direction.Left))
-            {
-                myDirection = Cell.Direction.Right;
-            }
-            else if (!curCell.IsExist(Cell.Direction.Right))
-            {
-                myDirection = Cell.Direction.Left;
-            }
+            return;
         }
 
-        if (curCell.IsExist(myDirection) && curCell.IsAvailable(myDirection))
+        if (newCell.myState == Cell.State.StartingPoint)
         {
-            curCell = curCell.NeighborCells[myDirection];
+            if (!newCell.IsExist(myDirection))
+            {
+                bool left = true;
+                {
+                    float rand = Random.Range(-1.0f, 1.0f);
+                    if (rand > 0)
+                    {
+                        left = false;
+                    }
+                }
+                if (left)
+                {
+                    myDirection = Cell.Direction.Left;
+                }
+                else
+                {
+                    myDirection = Cell.Direction.Right;
+                }
+            }
+            if (!newCell.IsExist(Cell.Direction.Up))
+            {
+                baseDirection = Cell.Direction.Down;
+            }
+            else
+            {
+                baseDirection = Cell.Direction.Up;
+            }
+
+            if (!newCell.IsExist(Cell.Direction.Right))
+            {
+                if (myDirection == Cell.Direction.Right)
+                {
+                    myDirection = Cell.Direction.Left;
+                }
+            } else if (!newCell.IsExist(Cell.Direction.Left))
+            {
+                if (myDirection == Cell.Direction.Left)
+                {
+                    myDirection = Cell.Direction.Right;
+                }
+            }
         }
+
+        _isValidated = true;
+        curCell = newCell;
+        myState = State.Moving;
     }
 
     private void Move()
     {
         print(myDirection);
-        //transform.Translate(-1000, -1000, -1000);
         transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime * movingSpeed);
     }
 
@@ -112,6 +132,7 @@ public class Character : MonoBehaviour
                 else
                 {
                     myState = State.Waiting;
+                    _isValidated = false;
                 }
                 break;
             case State.Starting:
