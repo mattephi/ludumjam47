@@ -1,5 +1,5 @@
-﻿// using System.Collections;
-// using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GlobalController : MonoBehaviour
@@ -7,9 +7,33 @@ public class GlobalController : MonoBehaviour
     [SerializeField] private Generator generator;
     public Character char1;
     public Character char2;
+    private const float DefaultSwapTiming = 1.0f;
 
     public void SwapCharacters()
     {
-        print("Works");
+        StartCoroutine(AsyncSwap());
+    }
+
+    IEnumerator AsyncSwap(float timing = DefaultSwapTiming)
+    {
+        yield return new WaitForSeconds(DefaultSwapTiming);
+        if (char1 && char2)
+        {
+            {
+                var temp = char1.transform.position;
+                char1.transform.position = char2.transform.position;
+                char2.transform.position = temp;
+            }
+            {
+                var temp = char1.myDirection;
+                char1.myDirection = char2.myDirection;
+                char2.myDirection = temp;
+            }
+            {
+                var temp = char1.baseDirection;
+                char1.baseDirection = char2.baseDirection;
+                char2.baseDirection = temp;
+            }
+        }
     }
 }
