@@ -1,4 +1,4 @@
-﻿﻿// using System;
+// using System;
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
@@ -13,10 +13,10 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 10f;
+    [SerializeField] private float minDamage = 100.0f;
     [SerializeField] private float movingSpeed = 2f;
 
-    public float curDamage;
+    public float curDamage = 100.0f;
     private bool iFixit = false;
     
     
@@ -41,13 +41,14 @@ public class Character : MonoBehaviour
         this.baseDirection = baseDirection;
         this.myDirection = myDirection;
         this.curCell = curCell;
+        transform.position = Vector3.MoveTowards(transform.position, curCell.reachMe, Time.deltaTime * movingSpeed);
         curDamage = minDamage;
         myState = State.Waiting;
     }
 
     private bool _isValidated = false;
     private float _lastDamage = 0f;
-    private float DamageDeltaTime = 0.01f;
+    private float DamageDeltaTime = 1f;
 
     public Character(bool isValidated)
     {
@@ -98,6 +99,7 @@ public class Character : MonoBehaviour
             if (!newCell.IsExist(Cell.Direction.Up) && baseDirection == Cell.Direction.Up)
             {
                 baseDirection = Cell.Direction.Down;
+                this.transform.Rotate(new Vector3(0, 0, 1), 180);
             }
             if (!newCell.IsExist(Cell.Direction.Down) && baseDirection == Cell.Direction.Down)
             {
@@ -127,7 +129,7 @@ public class Character : MonoBehaviour
 
     private void Move()
     {
-        if (curCell.myState != Cell.State.Transition)
+        if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
         {
             return;
         }
@@ -159,10 +161,10 @@ public class Character : MonoBehaviour
                     ValidateAndMoveToNextCell();
                 }
 
-                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint && Time.realtimeSinceStartup - _lastDamage > DamageDeltaTime)
+                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
                 {
-                    curCell.GetDamage(this, curDamage);
-                    _lastDamage = Time.realtimeSinceStartup;
+                    print("Time: " + Time.deltaTime + " damage: " + curDamage + " real damage: " + curDamage * Time.deltaTime);
+                    curCell.GetDamage(this, curDamage * Time.deltaTime);
                 }
                 else if(curCell.myState == Cell.State.Transition || curCell.myState == Cell.State.StartingPoint)
                 {

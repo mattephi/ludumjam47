@@ -1,4 +1,4 @@
-﻿﻿using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TreeEditor;
 using UnityEngine;
@@ -13,6 +13,8 @@ public class Bonus : MonoBehaviour
 
     [SerializeField] private const bool DefaultImmortalityModifier = true;
     [SerializeField] private Cell cell;
+
+    [SerializeField] private GlobalController globalController;
 
     public enum BonusType
     {

@@ -1,4 +1,4 @@
-﻿﻿// using System;
+// using System;
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
@@ -9,8 +9,10 @@ public class Generator : MonoBehaviour
     public GlobalController globalController;
 
     [SerializeField] private GameObject cellPrefab;
-    [SerializeField] private GameObject characterPrefab;
-
+    [SerializeField] private GameObject character1Prefab;
+    [SerializeField] private GameObject character2Prefab;
+    public bool createCharacters = true;
+    
     public int rows, columns;
     public Sprite upGrass;
     public Sprite downGrass;
@@ -29,9 +31,12 @@ public class Generator : MonoBehaviour
     private void OnEnable()
     {
         GenerateMatrix();
-        SpawnChar();
-        globalController.char1 = characters[0];
-        globalController.char2 = characters[1];
+        if (createCharacters)
+        {
+            SpawnChar();
+            globalController.char1 = characters[0];
+            globalController.char2 = characters[1];
+        }
     }
 
     private void GenerateMatrix()

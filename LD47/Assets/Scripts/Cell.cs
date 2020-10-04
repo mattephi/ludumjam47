@@ -1,4 +1,4 @@
-﻿﻿// using System;
+// using System;
 // using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -10,6 +10,7 @@ public class Cell : MonoBehaviour
 {
     #region Initialization
     public Sprite[] borderSprites;
+    public GameObject transitionCover;
     //[SerializeField]private Dictionary<State, Sprite> _stateSprites = new Dictionary<State, Sprite>();
 
     public Vector3 reachMe;
@@ -206,7 +207,8 @@ public class Cell : MonoBehaviour
             if ((i_identifier & item.value.Mask) == item.value.ControlVal)
             {
                 borders[bordersCount] = new GameObject();
-                borders[bordersCount].transform.parent = transform;
+                borders[bordersCount].name = "Border";
+                borders[bordersCount].transform.parent = gameObject.transform;
                 borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
                 borders[bordersCount].GetComponent<SpriteRenderer>().sortingOrder = 1;
@@ -216,7 +218,7 @@ public class Cell : MonoBehaviour
         }
     }
 
-    void Die(Character character) // Debug purposes
+    void Die(Character character)
     {
         switch (myState)
         {
@@ -234,6 +236,7 @@ public class Cell : MonoBehaviour
         }
         SetState(State.Transition);
         drawBorders();
+        GameObject coverGO = Instantiate(transitionCover, transform.position, Quaternion.identity); //transition
 
         foreach (var item in NeighborCells)
         {
