@@ -2,6 +2,7 @@
 // using System.Collections;
 // using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 // using Random = System.Random;
 
 public class Character : MonoBehaviour
@@ -181,7 +182,8 @@ public class Character : MonoBehaviour
     {
         if (immortal)
         {
-            print("DIE   "  + this);
+            //print("DIE   "  + this);
+            SceneManager.LoadScene("Igor");
         }
         else
         {
