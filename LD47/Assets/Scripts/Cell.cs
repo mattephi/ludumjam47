@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿// using System;
+// using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+// using System.Diagnostics;
 using UnityEngine;
 
 
@@ -34,56 +34,55 @@ public class Cell : MonoBehaviour
         StartingPoint,
         Deadly
     }
-    public State MyState;
+    public State myState;
 
-    [SerializeField] private float MaxCellHp = 100f;
-    private const float minCellHp = 0f;
-    private float curHp;
+    [SerializeField] private float maxCellHp = 100f;
+    private const float MINCellHp = 0f;
+    private float _curHp;
 
-    public Bonus MyBonus;
-    public Resource MyResource;
+    public Bonus myBonus;
+    public Resource myResource;
 
     #endregion
 
     private void OnEnable()
     {
-        switch (MyState)
+        switch (myState)
         {
             case State.Bonus:
             case State.Surface:
-                curHp = MaxCellHp;
+                _curHp = maxCellHp;
                 break;
             case State.Resource:
-                curHp = MyResource.value * MaxCellHp;
+                _curHp = myResource.value * maxCellHp;
                 break;
             default:
-                curHp = MaxCellHp;
+                _curHp = maxCellHp;
                 break;
         }
     }
 
     public void GetDamage(Character character)
     {
-        if (curHp - character.CurDamage > 0)
+        if (_curHp - character.curDamage > 0)
         {
-            curHp -= character.CurDamage;
+            _curHp -= character.curDamage;
         }
         else
         {
-            curHp = 0f;
-            die();
+            _curHp = 0f;
+            Die();
         }
     }
 
     public bool IsExist(Direction direction)
     {
-        Cell neighborcell;
-        return (NeighborCells.TryGetValue(direction, out neighborcell) && !ReferenceEquals(neighborcell, null));
+        return (NeighborCells.TryGetValue(direction, out var neighbourCell) && !ReferenceEquals(neighbourCell, null));
     }
 
     public bool IsAvailable(Direction direction)
     {
-        return NeighborCells[direction].MyState != State.Deadly;
+        return NeighborCells[direction].myState != State.Deadly;
     }
 
     public int getNeighbourIndex(Direction direct)
@@ -109,8 +108,8 @@ public class Cell : MonoBehaviour
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.MyState);
-            if (item.Value.MyState == State.Deadly || item.Value.MyState == State.Transition)
+            UnityEngine.Debug.Log(item.Value.myState);
+            if (item.Value.myState == State.Deadly || item.Value.myState == State.Transition)
                 i_identifier += 1 << getNeighbourIndex(item.Key);
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
@@ -121,10 +120,10 @@ public class Cell : MonoBehaviour
         #endregion 
     }
 
-    void die() // Debug purposes
+    void Die() // Debug purposes
     {
         drawBorders();
-        switch (MyState)
+        switch (myState)
         {
             //break / return to the player
             case State.Bonus:
@@ -134,11 +133,11 @@ public class Cell : MonoBehaviour
             case State.Resource:
                 break;
         }
-        MyState = State.Transition;
+        myState = State.Transition;
     }
 
     void OnMouseDown() // Debug purposes
     {
-        die();
+        Die();
     }
 }
