@@ -154,10 +154,10 @@ public class Cell : MonoBehaviour
         new borderCheckElem { mask =  0b_0001_1100, controlVal = 0b_0000_1000}, //a5
         new borderCheckElem { mask =  0b_0000_0111, controlVal = 0b_0000_0010}, //a7
                 
-        new borderCheckElem { mask =  0b_0101_0000, controlVal = 0b_0101_0000}, //c24
-        new borderCheckElem { mask =  0b_0100_0001, controlVal = 0b_0100_0001}, //c28
-        new borderCheckElem { mask =  0b_0001_0100, controlVal = 0b_0001_0100}, //c46
-        new borderCheckElem { mask =  0b_0000_0101, controlVal = 0b_0000_0101}, //c68
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0000}, //c24
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0100_0001}, //c28
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0001_0100}, //c46
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0000_0101}, //c68
 
         new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0100}, //d246
         new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0001}, //d248
@@ -217,8 +217,8 @@ public class Cell : MonoBehaviour
                 break;
         }
         myState = State.Transition;
-        drawBorders();
 
+        drawBorders();
         foreach (var item in NeighborCells)
         {
             UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
@@ -229,9 +229,10 @@ public class Cell : MonoBehaviour
         }
     }
 
-    void OnMouseDown() // Debug purposes
+    void OnMouseOver() // Debug purposes
     {
-        Die();
+        if (Input.GetKey(KeyCode.Mouse0))
+            Die();
     }
 
     private void OnCollisionEnter2D(Collision2D other1)
