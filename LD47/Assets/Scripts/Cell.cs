@@ -171,7 +171,7 @@ public class Cell : MonoBehaviour
     };
 
     public GameObject[] borders = new GameObject[8];
-    public int bordersCount = 0;
+    public int bordersCount;
 
     void drawBorders()
     {
@@ -179,11 +179,12 @@ public class Cell : MonoBehaviour
         {
             Destroy(item);
         }
+        bordersCount = 0;
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
             UnityEngine.Debug.Log(item.Value.myState);
-            if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus)
+            if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
                 i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
