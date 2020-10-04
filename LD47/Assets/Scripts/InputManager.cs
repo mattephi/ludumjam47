@@ -15,10 +15,12 @@ public class InputManager : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
-        {
+        {       
+
             if (globalController.char1.BaseDirection == Cell.Direction.Up)
             {
                 globalController.char1.MyDirection = Cell.Direction.Up;
+                
             }
         }
         if (Input.GetKeyDown(KeyCode.A))
@@ -26,9 +28,10 @@ public class InputManager : MonoBehaviour
             globalController.char1.MyDirection = Cell.Direction.Left;
         }
         if (Input.GetKeyDown(KeyCode.S))
-        {    
+        {    print("S OUTER IF");
             if (globalController.char1.BaseDirection == Cell.Direction.Down)
             {
+                print("s(Inner IF)");
                 globalController.char1.MyDirection = Cell.Direction.Down;
             }
         }

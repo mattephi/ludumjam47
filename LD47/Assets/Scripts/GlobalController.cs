@@ -40,6 +40,6 @@ public class GlobalController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        drawCaves(_generator.CellMatrix, _generator.rows, _generator.columns);
+        //drawCaves(_generator.CellMatrix, _generator.rows, _generator.columns);
     }
 }

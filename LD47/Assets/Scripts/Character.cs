@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
         get { return _minMiningSpeed; }
         private set { _minMiningSpeed = value; }
     }
-    [SerializeField] private float _minMiningSpeed;
+    [SerializeField] private float _minMiningSpeed = 2f;
     [SerializeField] private float movingSpeed = 2.0f;
 
     public float CurDamage;
@@ -39,7 +39,7 @@ public class Character : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Mystate = State.Waiting;
     }
 
     void validateAndMoveToNextCell()
@@ -94,7 +94,6 @@ public class Character : MonoBehaviour
     
     void Move()
     {
-        transform.Translate(curCell.gameObject.transform.position * Time.deltaTime);
         Mystate = State.Waiting;
     }
 
