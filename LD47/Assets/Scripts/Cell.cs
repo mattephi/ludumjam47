@@ -269,4 +269,10 @@ public class Cell : MonoBehaviour
         }
     }
 
+    public void Dead()
+    {
+        //remove bonuses // resources
+        SetSprite(State.Deadly);
+    }
+
 }
