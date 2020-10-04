@@ -149,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 4075463274846700192, guid: ccd73e443dd1be535aed925e4bfb4498,
         type: 3}
       propertyPath: borderSprites.Array.size
-      value: 27
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 4075463274846700192, guid: ccd73e443dd1be535aed925e4bfb4498,
         type: 3}
@@ -343,8 +343,8 @@ MonoBehaviour:
     type: 3}
   characterPrefab: {fileID: 2912484219990650280, guid: 0596ae80c5b6d1974ae85710a1f39761,
     type: 3}
-  rows: 5
-  columns: 5
+  rows: 10
+  columns: 20
   startCellSprite: {fileID: 0}
   characters: []
 --- !u!4 &2035036659
@@ -355,7 +355,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2035036657}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.68, y: 2.04, z: 0}
+  m_LocalPosition: {x: -9.28, y: 3.46, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

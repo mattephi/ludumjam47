@@ -183,12 +183,12 @@ public class Cell : MonoBehaviour
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.myState);
+            //UnityEngine.Debug.Log(item.Value.myState);
             if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
                 i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        UnityEngine.Debug.Log(i_identifier);
+        //UnityEngine.Debug.Log(i_identifier);
        
         foreach(var item in borderCheck.Select((value, i) => new { i, value }))
         {
@@ -198,7 +198,8 @@ public class Cell : MonoBehaviour
                 borders[bordersCount].transform.parent = gameObject.transform;
                 borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
-                UnityEngine.Debug.Log(borders[bordersCount]);
+                borders[bordersCount].GetComponent<SpriteRenderer>().sortingOrder = 1;
+                //UnityEngine.Debug.Log(borders[bordersCount]);
                 bordersCount++;
             }
         }
@@ -221,7 +222,7 @@ public class Cell : MonoBehaviour
         drawBorders();
         foreach (var item in NeighborCells)
         {
-            UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
+            //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
             if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
             {
                 item.Value.drawBorders();
@@ -232,7 +233,13 @@ public class Cell : MonoBehaviour
     void OnMouseOver() // Debug purposes
     {
         if (Input.GetKey(KeyCode.Mouse0))
+        {
+            /*
+            foreach (var item in NeighborCells)
+                UnityEngine.Debug.Log("Key: " + item.Key + "\nVal: " + item.Value.myState);
+            */
             Die();
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other1)

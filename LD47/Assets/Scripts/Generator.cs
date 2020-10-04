@@ -64,7 +64,7 @@ public class Generator : MonoBehaviour
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.Up] = _cellMatrix[i1 - 1, i2];
                 if (i2 + 1 < columns)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.Right] = _cellMatrix[i1, i2 + 1];
-                if (i1 + 1 < rows)
+                if (i1 < rows + 1)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.Down] = _cellMatrix[i1 + 1, i2];
                 if (i2 > 0)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.Left] = _cellMatrix[i1, i2 - 1];
@@ -73,9 +73,9 @@ public class Generator : MonoBehaviour
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.UpLeft] = _cellMatrix[i1 - 1, i2 - 1];
                 if (i1 > 0 && i2 + 1 < columns)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.UpRight] = _cellMatrix[i1 - 1, i2 + 1];
-                if (i1 + 1 < rows && i2 + 1 < columns)
+                if (i1 < rows + 1 && i2 + 1 < columns)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownRight] = _cellMatrix[i1 + 1, i2 + 1];
-                if (i1 + 1 < rows && i2 > 0)
+                if (i1 < rows + 1 && i2 > 0)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownLeft] = _cellMatrix[i1 + 1, i2 - 1];
                 Debug.Log(_cellMatrix[i1, i2].NeighborCells);
             }
