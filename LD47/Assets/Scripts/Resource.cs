@@ -9,13 +9,11 @@ public class Resource : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite sprite;
     public int value = 1;
-    [SerializeField] private Sprite[] spriteArr;
+    public float coefficient = 1.05f;
 
-    private void OnValidate()
+    public void Mine(Character character)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        sprite = spriteArr[value - 1];
-        spriteRenderer.sprite = sprite;
+        character.curDamage *= coefficient;
+        Destroy(this.gameObject);
     }
-    
 }

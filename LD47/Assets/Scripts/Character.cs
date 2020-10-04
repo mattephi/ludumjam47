@@ -72,7 +72,7 @@ public class Character : MonoBehaviour
         
         if (curCell.myState == Cell.State.StartingPoint && curCell.IsExist(baseDirection))
         {
-            if (curCell.IsExist(baseDirection)
+            if (curCell.IsExist(baseDirection))
             {
                 if (baseDirection == Cell.Direction.Up)
                 {
@@ -153,6 +153,6 @@ public class Character : MonoBehaviour
         print("DIE   "  + this);
         Time.timeScale = 0;
         
-        //Destroy(this);
+        //Destroy(this.gameObject);
     }
 }
