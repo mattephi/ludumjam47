@@ -194,7 +194,9 @@ public class Cell : MonoBehaviour
             if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
                 i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
-        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        
+        //GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        
         //UnityEngine.Debug.Log(i_identifier);
        
         foreach(var item in _borderCheck.Select((value, i) => new { i, value }))
