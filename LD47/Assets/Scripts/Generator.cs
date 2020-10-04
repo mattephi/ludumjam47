@@ -99,19 +99,10 @@ public class Generator : MonoBehaviour
         var spawnB = _cellMatrix[rows + 1, pointB].reachMe;; 
         characters[0] = Instantiate(characterPrefab,spawnA , Quaternion.identity).GetComponent<Character>();
         characters[0].Init(Cell.Direction.Down, Cell.Direction.Down, _cellMatrix[0, pointA]);
-        characters[0].baseDirection = Cell.Direction.Down;
-        characters[0].myDirection = Cell.Direction.Down;
-        characters[0].curCell = _cellMatrix[0, pointA];
+        
         
         characters[1] = Instantiate(characterPrefab,spawnB , Quaternion.identity).GetComponent<Character>();
         characters[1].Init(Cell.Direction.Up, Cell.Direction.Up, _cellMatrix[rows + 1, pointB]);
-        characters[1] = null;
-        
-        
-        
-        characters[1].baseDirection = Cell.Direction.Up;
-        characters[1].myDirection = Cell.Direction.Up;
-        characters[1].curCell = _cellMatrix[rows + 1, pointB];
-        
+
     }
 }

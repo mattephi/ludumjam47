@@ -97,9 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2912484219990650278}
-  minDamage: 1
-  movingSpeed: 2
-  curDamage: 1
+  minDamage: 100
+  movingSpeed: 5
+  curDamage: 100
   myDirection: 0
   baseDirection: 0
   myState: 0

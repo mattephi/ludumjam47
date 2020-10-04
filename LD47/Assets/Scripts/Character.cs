@@ -13,10 +13,10 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 50f;
+    [SerializeField] private float minDamage = 100.0f;
     [SerializeField] private float movingSpeed = 2f;
 
-    public float curDamage;
+    public float curDamage = 100.0f;
     private bool iFixit = false;
     
     
@@ -48,7 +48,7 @@ public class Character : MonoBehaviour
 
     private bool _isValidated = false;
     private float _lastDamage = 0f;
-    private float DamageDeltaTime = 0.01f;
+    private float DamageDeltaTime = 1f;
 
     public Character(bool isValidated)
     {
@@ -158,10 +158,10 @@ public class Character : MonoBehaviour
                     ValidateAndMoveToNextCell();
                 }
 
-                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint && Time.realtimeSinceStartup - _lastDamage > DamageDeltaTime)
+                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
                 {
-                    curCell.GetDamage(this, curDamage);
-                    _lastDamage = Time.realtimeSinceStartup;
+                    print("Time: " + Time.deltaTime + " damage: " + curDamage + " real damage: " + curDamage * Time.deltaTime);
+                    curCell.GetDamage(this, curDamage * Time.deltaTime);
                 }
                 else if(curCell.myState == Cell.State.Transition || curCell.myState == Cell.State.StartingPoint)
                 {
