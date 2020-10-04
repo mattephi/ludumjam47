@@ -124,8 +124,7 @@ public class Character : MonoBehaviour
 
                 if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
                 {
-                    curCell.myState = Cell.State.Transition;
-                    curCell.GetDamage(this, curDamage * Time.deltaTime);
+                    curCell.GetDamage(this, curDamage/100 * Time.deltaTime);
                 }
                 else
                 {

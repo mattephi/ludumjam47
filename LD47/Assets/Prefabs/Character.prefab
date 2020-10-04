@@ -97,14 +97,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 2912484219990650278}
-  _minMiningSpeed: 0
+  minDamage: 0
   movingSpeed: 2
-  CurDamage: 0
-  MyDirection: 0
-  BaseDirection: 0
-  Mystate: 0
+  curDamage: 0
+  myDirection: 0
+  baseDirection: 0
+  myState: 0
   curCell: {fileID: 0}
-  Immortal: 0
+  immortal: 0
 --- !u!50 &3234363365372858921
 Rigidbody2D:
   serializedVersion: 4
@@ -150,5 +150,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.99, y: 0.99}
   m_EdgeRadius: 0
