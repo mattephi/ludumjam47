@@ -140,6 +140,7 @@ public class Character : MonoBehaviour
     public void Die()
     {
         print("DIE");
+        Time.timeScale = 0;
         Destroy(this);
     }
 }
