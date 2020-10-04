@@ -120,7 +120,7 @@ public class Cell : MonoBehaviour
 
     public bool IsAvailable(Direction direction)
     {
-        return NeighborCells[direction].MyState != State.Deadly;
+        return NeighborCells[direction].myState != State.Deadly;
     }
 
     public int getNeighbourIndex(Direction direct)
@@ -172,31 +172,14 @@ public class Cell : MonoBehaviour
         new borderCheckElem { mask =  0b_0100_0101, controlVal = 0b_0000_0001}, //l8
     };
 
-    void drawBorders()
-    {
-        switch (direct)
-        {
-            case Direction.UpLeft: return 0;
-            case Direction.Up: return 1;
-            case Direction.UpRight: return 2;
-            case Direction.Right: return 3;
-            case Direction.DownRight: return 4;
-            case Direction.Down: return 5;
-            case Direction.DownLeft: return 6;
-            case Direction.Left: return 7;
-            default:
-                UnityEngine.Debug.Log("Unexpected input");
-                return -1;
-        }
-    }
 
     void drawBorders()
     {
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.MyState);
-            if (item.Value.MyState == State.Resource || item.Value.MyState == State.Surface || item.Value.MyState == State.Bonus)
+            UnityEngine.Debug.Log(item.Value.myState);
+            if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus)
                 i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
@@ -220,7 +203,7 @@ public class Cell : MonoBehaviour
 
     void die() // Debug purposes
     {
-        switch (MyState)
+        switch (myState)
         {
             //break / return to the player
             case State.Bonus:
@@ -230,13 +213,13 @@ public class Cell : MonoBehaviour
             case State.Resource:
                 break;
         }
-        MyState = State.Transition;
+        myState = State.Transition;
         drawBorders();
 
         foreach (var item in NeighborCells)
         {
-            UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.MyState);
-            if (item.Value.MyState == State.Transition || item.Value.MyState == State.Deadly)
+            UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
+            if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
             {
                 item.Value.drawBorders();
             }
@@ -262,11 +245,6 @@ public class Cell : MonoBehaviour
                 break;
         }
         myState = State.Transition;
-    }
-
-    void OnMouseDown() // Debug purposes
-    {
-        Die();
     }
 
     private void OnCollisionEnter2D(Collision2D other1)
