@@ -18,6 +18,7 @@ public class Character : MonoBehaviour
 
     public float curDamage;
     
+    
     public Cell.Direction myDirection;
     public Cell.Direction baseDirection;
     public enum State
@@ -34,14 +35,16 @@ public class Character : MonoBehaviour
 
     public bool immortal;
     
-    public Character(Cell.Direction baseDirection, Cell.Direction myDirection, Cell curCell)
+    public void Init(Cell.Direction baseDirection, Cell.Direction myDirection, Cell curCell)
     {
         this.baseDirection = baseDirection;
         this.myDirection = myDirection;
         this.curCell = curCell;
         curDamage = minDamage;
-        mystate = State.Waiting;
+        myState = State.Waiting;
     }
+
+    private bool _isValidated;
     #endregion
     
     
@@ -49,7 +52,7 @@ public class Character : MonoBehaviour
     void OnEnable()
     {
         curDamage = minDamage;
-        mystate = State.Waiting;
+        myState = State.Waiting;
     }
 
     private void ValidateAndMoveToNextCell()
@@ -82,10 +85,6 @@ public class Character : MonoBehaviour
             {
                 myDirection = Cell.Direction.Left;
             }
-        }//if it's not a starting point
-        else
-        {
-            curCell.myState = Cell.State.Deadly;
         }
 
         if (curCell.IsExist(myDirection) && curCell.IsAvailable(myDirection))
@@ -105,15 +104,13 @@ public class Character : MonoBehaviour
         
         // Start mining.
         myState = State.Moving;
-        Move();
     }
     
     private void Move()
     {
         print(myDirection);
-        transform.Translate(-1000, -1000, -1000);
-        myState = State.Waiting;
-        transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime*movingSpeed);
+        //transform.Translate(-1000, -1000, -1000);
+        transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime * movingSpeed);
     }
 
     // Update is called once per frame
@@ -122,10 +119,19 @@ public class Character : MonoBehaviour
         switch (myState)
         {
             case State.Moving:
+                if (Vector3.Distance(curCell.transform.position, transform.position) > 1e-3)
+                {
+                    Move();
+                }
+                else
+                {
+                    myState = State.Waiting;
+                }
                 break;
             case State.Starting:
                 break;
             case State.Mining:
+                
                 break;
             case State.Waiting:
                 myState = State.Mining;

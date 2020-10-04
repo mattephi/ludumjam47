@@ -27,11 +27,8 @@ public class Cell : MonoBehaviour
         Left
     };
     
-    public readonly Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
-
-    #region Initialization
     public Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
-
+    
     public enum State
     {
         Resource,
@@ -50,7 +47,7 @@ public class Cell : MonoBehaviour
 
     public Bonus myBonus;
     public Resource myResource;
-    public Cell(State myState)
+    public void Init(State myState)
     {
         InitDict();
         this.myState = myState;
@@ -58,7 +55,7 @@ public class Cell : MonoBehaviour
         mainSpriteRenderer.sprite = _stateSprites[this.myState];
     }
     
-    public Cell(State myState, Bonus myBonus)
+    public void Init(State myState, Bonus myBonus)
     {
         InitDict();
         this.myBonus = myBonus;
@@ -67,7 +64,7 @@ public class Cell : MonoBehaviour
         mainSpriteRenderer.sprite = _stateSprites[this.myState];
     }
     
-    public Cell(State myState, Resource myResource)
+    public void Init(State myState, Resource myResource)
     {
         InitDict();
         this.myResource = myResource;
@@ -75,7 +72,7 @@ public class Cell : MonoBehaviour
         mainSpriteRenderer = GetComponent<SpriteRenderer>();
         mainSpriteRenderer.sprite = _stateSprites[this.myState];
     }
-
+    
     void InitDict()
     {
         _stateSprites[State.Surface] = surfaceSprite;
@@ -84,7 +81,7 @@ public class Cell : MonoBehaviour
     }
     #endregion
 
-    private void OnEnable()
+    private void AssignStates()
     {
         switch (myState)
         {
@@ -156,7 +153,7 @@ public class Cell : MonoBehaviour
 
         #region drawing broders
         //if (i_identifier ~ 0b_1000_0011 == 0b_10000000)
-        #endregion 
+        #endregion     
     }
 
     void Die() // Debug purposes
@@ -179,20 +176,21 @@ public class Cell : MonoBehaviour
     {
         Die();
     }
-    }
-        }
-            myState = State.Deadly;
-        {
-        if (other.CompareTag("Player") && myState == State.Transition)
-    {
-    private void OnTriggerExit(Collider other)
 
+    private void OnCollisionEnter2D(Collision2D other1)
+    {
+        if (other1.gameObject.CompareTag("Player") && myState == State.Deadly)
+        {
+            other1.gameObject.GetComponent<Character>().Die();
         }
     }
-            other.GetComponent<Character>().Die();
-        {
-        if (other.CompareTag("Player") && myState == State.Deadly)
+    
+    private void OnTriggerEnter2D(Collider2D other1)
     {
-    private void OnTriggerEnter(Collider other)
+        if (other1.CompareTag("Player") && myState == State.Transition)
+        {
+            myState = State.Deadly;
+        }
+    }
 
 }

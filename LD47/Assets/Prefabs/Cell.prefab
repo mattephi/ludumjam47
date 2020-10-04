@@ -195,11 +195,14 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9f87fe8e55cd60144a5b898529b3d904, type: 3}
   - {fileID: 21300000, guid: 7bebb199414d6094da291198e32eff56, type: 3}
   - {fileID: 21300000, guid: 80b7e5a840e508a47831a80d1a3bdb96, type: 3}
-  MainSpriteRenderer: {fileID: 4075463274846700193}
-  MyState: 1
-  MaxCellHp: 100
-  MyBonus: {fileID: 0}
-  MyResource: {fileID: 0}
+  surfaceSprite: {fileID: 21300000, guid: e2cd2ba9d08beeef4a9ab5f666cf3560, type: 3}
+  transitionSprite: {fileID: 21300000, guid: 5cd77612b8139a7bc8375c829665b9f4, type: 3}
+  deadlySprite: {fileID: 21300000, guid: 692a43f29000009bba3266f821681f0e, type: 3}
+  mainSpriteRenderer: {fileID: 4075463274846700193}
+  myState: 4
+  maxCellHp: 100
+  myBonus: {fileID: 0}
+  myResource: {fileID: 0}
 --- !u!61 &2207674326153300491
 BoxCollider2D:
   m_ObjectHideFlags: 0
