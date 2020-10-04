@@ -1,14 +1,24 @@
 ﻿// using System;
 // using System.Collections;
 using System.Collections.Generic;
-// using System.Diagnostics;
+using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
-
-
+using UnityEngine.UIElements;
 
 public class Cell : MonoBehaviour
 {
+    #region Initialization
     public Sprite[] borderSprites;
+    public GameObject transitionCover;
+    //[SerializeField]private Dictionary<State, Sprite> _stateSprites = new Dictionary<State, Sprite>();
+
+    public Vector3 reachMe;
+    public Sprite surfaceSprite;
+    [SerializeField] private Sprite transitionSprite;
+    [SerializeField] private Sprite deadlySprite;
+    
+    public SpriteRenderer mainSpriteRenderer;
     public enum Direction
     {
         UpLeft,
@@ -20,10 +30,9 @@ public class Cell : MonoBehaviour
         DownLeft,
         Left
     };
-
-    #region Initialization
+    
     public Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
-
+    
     public enum State
     {
         Resource,
@@ -42,10 +51,49 @@ public class Cell : MonoBehaviour
 
     public Bonus myBonus;
     public Resource myResource;
-
+    public void Init(State myState)
+    {
+        _curHp = maxCellHp;
+        this.myState = myState;
+        SetSprite(this.myState);
+    }
+    
+    public void Init(State myState, Bonus myBonus)
+    {
+        this.myBonus = myBonus;
+        this.myState = myState;
+        SetSprite(this.myState);
+    }
+    
+    public void Init(State myState, Resource myResource)
+    {
+        this.myResource = myResource;
+        this.myState = myState;
+        SetSprite(this.myState);
+    }
     #endregion
-
-    private void OnEnable()
+    
+    public void SetSprite(State state)
+    {
+        switch (state)
+        {
+            case State.Surface:
+                mainSpriteRenderer.sprite = surfaceSprite;
+                break;
+            case State.Transition:
+                mainSpriteRenderer.sprite = transitionSprite;
+                break;
+                case State.Deadly:
+                    mainSpriteRenderer.sprite = deadlySprite; 
+                    break;
+                default:    
+                    break;
+        }
+        myState = state;
+    }
+    
+    
+    private void AssignStates()
     {
         switch (myState)
         {
@@ -62,16 +110,16 @@ public class Cell : MonoBehaviour
         }
     }
 
-    public void GetDamage(Character character)
+    public void GetDamage(Character character, float damage)
     {
-        if (_curHp - character.curDamage > 0)
+        if (_curHp - damage > 0)
         {
-            _curHp -= character.curDamage;
+            _curHp -= damage;
         }
         else
         {
             _curHp = 0f;
-            Die();
+            Die(character);
         }
     }
 
@@ -103,41 +151,130 @@ public class Cell : MonoBehaviour
         }
     }
 
+
+    struct borderCheckElem
+    {
+        public int Mask;
+        public int ControlVal;
+    }
+    borderCheckElem[] _borderCheck = 
+    {
+        new borderCheckElem { Mask =  0b_1100_0001, ControlVal = 0b_1000_0000}, //a1
+        new borderCheckElem { Mask =  0b_0111_0000, ControlVal = 0b_0010_0000}, //a3
+        new borderCheckElem { Mask =  0b_0001_1100, ControlVal = 0b_0000_1000}, //a5
+        new borderCheckElem { Mask =  0b_0000_0111, ControlVal = 0b_0000_0010}, //a7
+                
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0101_0000}, //c24
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0100_0001}, //c28
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0001_0100}, //c46
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0000_0101}, //c68
+
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0101_0100}, //d246
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0101_0001}, //d248
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0100_0101}, //d268
+        new borderCheckElem { Mask =  0b_0101_0101, ControlVal = 0b_0001_0101}, //d468
+        
+        new borderCheckElem { Mask =  0b_0101_0001, ControlVal = 0b_0100_0000}, //l2
+        new borderCheckElem { Mask =  0b_0101_0100, ControlVal = 0b_0001_0000}, //l4
+        new borderCheckElem { Mask =  0b_0001_0101, ControlVal = 0b_0000_0100}, //l6
+        new borderCheckElem { Mask =  0b_0100_0101, ControlVal = 0b_0000_0001}, //l8
+    };
+
+    public GameObject[] borders = new GameObject[8];
+    public int bordersCount;
+
     void drawBorders()
     {
+        foreach(var item in borders)
+        {
+            Destroy(item);
+        }
+        bordersCount = 0;
         int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            UnityEngine.Debug.Log(item.Value.myState);
-            if (item.Value.myState == State.Deadly || item.Value.myState == State.Transition)
-                i_identifier += 1 << getNeighbourIndex(item.Key);
+            //UnityEngine.Debug.Log(item.Value.myState);
+            if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
+                i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
-        this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        UnityEngine.Debug.Log(i_identifier);
-
-        #region drawing broders
-        //if (i_identifier ~ 0b_1000_0011 == 0b_10000000)
-        #endregion 
+        
+        //GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
+        
+        //UnityEngine.Debug.Log(i_identifier);
+       
+        foreach(var item in _borderCheck.Select((value, i) => new { i, value }))
+        {
+            if ((i_identifier & item.value.Mask) == item.value.ControlVal)
+            {
+                borders[bordersCount] = new GameObject();
+                borders[bordersCount].name = "Border";
+                borders[bordersCount].transform.parent = gameObject.transform;
+                borders[bordersCount].transform.position = gameObject.transform.position;
+                borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
+                borders[bordersCount].GetComponent<SpriteRenderer>().sortingOrder = 1;
+                //UnityEngine.Debug.Log(borders[bordersCount]);
+                bordersCount++;
+            }
+        }
     }
 
-    void Die() // Debug purposes
+    void Die(Character character)
     {
-        drawBorders();
         switch (myState)
         {
             //break / return to the player
-            case State.Bonus:
-                break;
+            case State.Deadly:
             case State.Surface:
+            case State.Transition:
+                break;
+            case State.Bonus:
+                myBonus.EnableBonus(character);
                 break;
             case State.Resource:
                 break;
         }
-        myState = State.Transition;
+        SetSprite(State.Transition);
+        drawBorders();
+        GameObject coverGO = Instantiate(transitionCover, transform.position, Quaternion.identity); //transition
+
+        foreach (var item in NeighborCells)
+        {
+            if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
+            {
+                //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
+                item.Value.drawBorders();
+            }
+        }
+            
     }
 
-    void OnMouseDown() // Debug purposes
+    void OnMouseOver() // Debug purposes
     {
-        Die();
+        if (Input.GetKey(KeyCode.Mouse0))
+            Die(null);
     }
+
+
+    private void OnCollisionEnter2D(Collision2D other1)
+    {
+        if (other1.gameObject.CompareTag("Player") && myState == State.Deadly)
+        {
+            other1.gameObject.GetComponent<Character>().Die();
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D other1)
+    {
+        if (other1.CompareTag("Player") && myState == State.Transition)
+        {
+            SetSprite(State.Deadly);
+        }
+    }
+
+    public void Dead()
+    {
+        //remove bonuses // resources
+        SetSprite(State.Deadly);
+    }
+
 }

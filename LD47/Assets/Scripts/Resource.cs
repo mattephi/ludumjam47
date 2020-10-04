@@ -7,15 +7,13 @@ using UnityEngine;
 public class Resource : MonoBehaviour
 {
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Sprite _sprite;
+    [SerializeField] private Sprite sprite;
     public int value = 1;
-    [SerializeField] private Sprite[] SpriteArr;
+    public float coefficient = 1.05f;
 
-    private void OnValidate()
+    public void Mine(Character character)
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        _sprite = SpriteArr[value - 1];
-        spriteRenderer.sprite = _sprite;
+        character.curDamage *= coefficient;
+        Destroy(this.gameObject);
     }
-    
 }

@@ -10,8 +10,9 @@ public class InputManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F))
         {
+            print("Swap made");
             globalController.SwapCharacters();
         }
         
@@ -22,11 +23,11 @@ public class InputManager : MonoBehaviour
                 if (globalController.char1.baseDirection == Cell.Direction.Up)
                 {
                     globalController.char1.myDirection = Cell.Direction.Up;
-                
                 }
             }
             if (Input.GetKeyDown(KeyCode.A))
             {    
+                globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char1.myDirection = Cell.Direction.Left;
             }
             if (Input.GetKeyDown(KeyCode.S))
@@ -38,6 +39,7 @@ public class InputManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.D))
             {    
+                globalController.char1.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char1.myDirection = Cell.Direction.Right;
             }
         }
@@ -60,10 +62,12 @@ public class InputManager : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {    
+                globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char2.myDirection = Cell.Direction.Left;
             }
             if (Input.GetKeyDown(KeyCode.RightArrow))
             {    
+                globalController.char2.transform.Rotate(new Vector3(0, 1, 0), 180);
                 globalController.char2.myDirection = Cell.Direction.Right;
             }
         }
