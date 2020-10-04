@@ -35,7 +35,10 @@ public class Character : MonoBehaviour
     public bool immortal;
     #endregion
     
-    
+    private void onButtonEntered ()
+    {
+
+    }
     // Start is called before the first frame update
     private void Start()
     {
