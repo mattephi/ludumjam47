@@ -22,13 +22,16 @@ public class InputManager : MonoBehaviour
             {       
                 if (globalController.char1.baseDirection == Cell.Direction.Up)
                 {
+                    print(globalController.char1.myDirection);
                     globalController.char1.myDirection = Cell.Direction.Up;
-                
+                    print(globalController.char1.myDirection);
                 }
             }
             if (Input.GetKeyDown(KeyCode.A))
             {    
+                print(globalController.char1.myDirection);
                 globalController.char1.myDirection = Cell.Direction.Left;
+                print(globalController.char1.myDirection);
             }
             if (Input.GetKeyDown(KeyCode.S))
             {    
