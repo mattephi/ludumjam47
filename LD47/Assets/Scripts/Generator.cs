@@ -59,7 +59,7 @@ public class Generator : MonoBehaviour
         for (var i1 = 0; i1 < rows + 2; i1++) // writing neighbours for each cell
             for (var i2 = 0; i2 < columns; i2++)
             {
-                Debug.Log("Writing neighbours" + i1 + " " + i2 + " " + _cellMatrix[i1, i2]);
+                //Debug.Log("Writing neighbours" + i1 + " " + i2 + " " + _cellMatrix[i1, i2]);
                 if (i1 > 0)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.Up] = _cellMatrix[i1 - 1, i2];
                 if (i2 + 1 < columns)
@@ -77,7 +77,7 @@ public class Generator : MonoBehaviour
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownRight] = _cellMatrix[i1 + 1, i2 + 1];
                 if (i1 < rows + 1 && i2 > 0)
                     _cellMatrix[i1, i2].NeighborCells[Cell.Direction.DownLeft] = _cellMatrix[i1 + 1, i2 - 1];
-                Debug.Log(_cellMatrix[i1, i2].NeighborCells);
+                //Debug.Log(_cellMatrix[i1, i2].NeighborCells);
             }
     }
     

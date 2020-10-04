@@ -207,6 +207,7 @@ public class Cell : MonoBehaviour
                 borders[bordersCount].transform.parent = gameObject.transform;
                 borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
+                borders[bordersCount].GetComponent<SpriteRenderer>().sortingOrder = 1;
                 //UnityEngine.Debug.Log(borders[bordersCount]);
                 bordersCount++;
             }
