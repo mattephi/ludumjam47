@@ -109,6 +109,7 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character, float damage)
     {
+        print(_curHp);
         if (_curHp - damage > 0)
         {
             _curHp -= damage;
@@ -233,7 +234,7 @@ public class Cell : MonoBehaviour
         drawBorders();
         foreach (var item in NeighborCells)
         {
-            UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
+            //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
             if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
             {
                 item.Value.drawBorders();

@@ -44,12 +44,21 @@ public class Character : MonoBehaviour
         myState = State.Waiting;
     }
 
-    private bool _isValidated;
+    private bool _isValidated = false;
+    private float _lastDamage = 0f;
+    private float DamageDeltaTime = 2f;
+
+    public Character(bool isValidated)
+    {
+        _isValidated = isValidated;
+    }
+
     #endregion
     
     // Start is called before the first frame update
     void OnEnable()
     {
+        _lastDamage = 0f;
         curDamage = minDamage;
         myState = State.Waiting;
     }
@@ -58,22 +67,23 @@ public class Character : MonoBehaviour
     {
         if (!curCell.IsExist(myDirection) || !curCell.IsAvailable(myDirection))
         {
-            print("Die");
             Die();
         }
         
-        if (curCell.myState == Cell.State.StartingPoint)
+        if (curCell.myState == Cell.State.StartingPoint && curCell.IsExist(baseDirection))
         {
-            switch (baseDirection)
+            if (curCell.IsExist(baseDirection)
             {
-                //change the BaseDirection
-                case Cell.Direction.Up:
+                if (baseDirection == Cell.Direction.Up)
+                {
                     baseDirection = Cell.Direction.Down;
-                    break;
-                case Cell.Direction.Down:
+                }
+                else
+                {
                     baseDirection = Cell.Direction.Up;
-                    break;
+                }
             }
+                
 
             //turn back from borders
             if (!curCell.IsExist(Cell.Direction.Left))
@@ -122,11 +132,12 @@ public class Character : MonoBehaviour
                     ValidateAndMoveToNextCell();
                 }
 
-                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint)
+                if (curCell.myState != Cell.State.Transition && curCell.myState != Cell.State.StartingPoint && Time.realtimeSinceStartup - _lastDamage > DamageDeltaTime)
                 {
-                    curCell.GetDamage(this, curDamage/100 * Time.deltaTime);
+                    curCell.GetDamage(this, curDamage);
+                    _lastDamage = Time.realtimeSinceStartup;
                 }
-                else
+                else if(curCell.myState == Cell.State.Transition)
                 {
                     myState = State.Moving;
                 }
@@ -139,8 +150,9 @@ public class Character : MonoBehaviour
 
     public void Die()
     {
-        print("DIE");
+        print("DIE   "  + this);
         Time.timeScale = 0;
-        Destroy(this);
+        
+        //Destroy(this);
     }
 }
