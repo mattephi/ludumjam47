@@ -51,14 +51,14 @@ public class Generator : MonoBehaviour
                 Vector3 spawnPoint = this.transform.position + new Vector3(j * cellSize, -i * cellSize, 0);
                 CellMatrix[i, j] = Instantiate(CellPrefab, spawnPoint, Quaternion.identity).GetComponent<Cell>();
                 CellMatrix[i, j].MyState = Cell.State.Surface;
-                Debug.Log("" + i + " " + j + " " + CellMatrix[i, j]);
+                //Debug.Log("" + i + " " + j + " " + CellMatrix[i, j]);
             }
         }
 
         for (int i_1 = 0; i_1 < rows + 2; i_1++) // writing nighbours for each cell
             for (int i_2 = 0; i_2 < columns; i_2++)
             {
-                Debug.Log("Writing neighbours" + i_1 + " " + i_2 + " " + CellMatrix[i_1, i_2]);
+                //Debug.Log("Writing neighbours" + i_1 + " " + i_2 + " " + CellMatrix[i_1, i_2]);
                 if (i_1 > 0)
                     CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.Up] = CellMatrix[i_1 - 1, i_2];
                 if (i_2 + 1 < columns)
@@ -76,7 +76,7 @@ public class Generator : MonoBehaviour
                     CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.DownRight] = CellMatrix[i_1 + 1, i_2 + 1];
                 if (i_1 + 1 < rows && i_2 > 0)
                     CellMatrix[i_1, i_2].NeighborCells[Cell.Direction.DownLeft] = CellMatrix[i_1 + 1, i_2 - 1];
-                Debug.Log(CellMatrix[i_1, i_2].NeighborCells);
+                //Debug.Log(CellMatrix[i_1, i_2].NeighborCells);
             }
     }
     
@@ -88,10 +88,7 @@ public class Generator : MonoBehaviour
         Vector3 spawnA = this.transform.position + new Vector3(pointA * cellSize, 0, 0);
         Vector3 spawnB = this.transform.position +  new Vector3(pointB *cellSize, -cellSize * (rows + 1),0) ; 
         Characters[0] = Instantiate(CharacterPrefab,spawnA , Quaternion.identity).GetComponent<Character>();
-        Characters[0].BaseDirection = Cell.Direction.Down;
-        Characters[0].MyDirection = Cell.Direction.Down;
-        Characters[0].curCell = CellMatrix[0, pointA];
-        
+
         Characters[1] = Instantiate(CharacterPrefab,spawnB , Quaternion.identity).GetComponent<Character>();
         Characters[1].BaseDirection = Cell.Direction.Up;
         Characters[1].MyDirection = Cell.Direction.Up;

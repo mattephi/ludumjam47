@@ -4,11 +4,17 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
 
-
-
 public class Cell : MonoBehaviour
 {
+    #region Initialization
     public Sprite[] borderSprites;
+    public Dictionary<State, Sprite> StateSprites = new Dictionary<State, Sprite>();
+
+    [SerializeField] private Sprite _surfaceSprite;
+    [SerializeField] private Sprite _transitionSprite;
+    [SerializeField] private Sprite _deadlySprite;
+    
+    public SpriteRenderer MainSpriteRenderer;
     public enum Direction
     {
         UpLeft,
@@ -20,8 +26,7 @@ public class Cell : MonoBehaviour
         DownLeft,
         Left
     };
-
-    #region Initialization
+    
     public Dictionary<Direction, Cell> NeighborCells = new Dictionary<Direction, Cell>();
 
     public enum State
@@ -42,7 +47,38 @@ public class Cell : MonoBehaviour
 
     public Bonus MyBonus;
     public Resource MyResource;
+    public Cell(State myState)
+    {
+        initDict();
+        MyState = myState;
+        MainSpriteRenderer = GetComponent<SpriteRenderer>();
+        MainSpriteRenderer.sprite = StateSprites[MyState];
+    }
+    
+    public Cell(State myState, Bonus myBonus)
+    {
+        initDict();
+        MyBonus = myBonus;
+        MyState = myState;
+        MainSpriteRenderer = GetComponent<SpriteRenderer>();
+        MainSpriteRenderer.sprite = StateSprites[MyState];
+    }
+    
+    public Cell(State myState, Resource myResource)
+    {
+        initDict();
+        MyResource = myResource;
+        MyState = myState;
+        MainSpriteRenderer = GetComponent<SpriteRenderer>();
+        MainSpriteRenderer.sprite = StateSprites[MyState];
+    }
 
+    void initDict()
+    {
+        StateSprites[State.Surface] = _surfaceSprite;
+        StateSprites[State.Transition] = _transitionSprite;
+        StateSprites[State.Deadly] = _deadlySprite;
+    }
     #endregion
 
     private void OnEnable()
@@ -140,5 +176,21 @@ public class Cell : MonoBehaviour
     void OnMouseDown() // Debug purposes
     {
         die();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && MyState == State.Deadly)
+        {
+            other.GetComponent<Character>().Die();
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player") && MyState == State.Transition)
+        {
+            MyState = State.Deadly;
+        }
     }
 }

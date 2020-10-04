@@ -8,12 +8,12 @@ public class Character : MonoBehaviour
 {
     #region Initialization
     [SerializeField] private SpriteRenderer spriteRenderer;
-    public float MinMovingSpeed
+    public float MinDamage
     {
-        get { return _minMiningSpeed; }
-        private set { _minMiningSpeed = value; }
+        get { return _minDamage; }
+        private set { _minDamage = value; }
     }
-    [SerializeField] private float _minMiningSpeed = 2f;
+    [SerializeField] private float _minDamage = 2f;
     [SerializeField] private float movingSpeed = 2.0f;
 
     public float CurDamage;
@@ -33,12 +33,22 @@ public class Character : MonoBehaviour
     public Cell curCell;
 
     public bool Immortal;
+    
+    public Character(Cell.Direction baseDirection, Cell.Direction myDirection, Cell curCell)
+    {
+        BaseDirection = baseDirection;
+        MyDirection = myDirection;
+        this.curCell = curCell;
+        CurDamage = _minDamage;
+        Mystate = State.Waiting;
+    }
     #endregion
     
     
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
+        CurDamage = _minDamage;
         Mystate = State.Waiting;
     }
 
@@ -73,7 +83,7 @@ public class Character : MonoBehaviour
         }//if it's not a starting point
         else
         {
-            curCell.MyState = Cell.State.Deadly;
+            curCell.MyState = Cell.State.Transition;
         }
         
         curCell = curCell.NeighborCells[MyDirection];
@@ -86,7 +96,10 @@ public class Character : MonoBehaviour
         {
             curCell.GetDamage(this);
         }
-
+        
+        //NewCell state = transition, previous cell state = deadly
+        
+        
         // Start mining.
         Mystate = State.Moving;
         Move();
@@ -118,7 +131,7 @@ public class Character : MonoBehaviour
         }
     }
 
-    void Die()
+    public void Die()
     {
         print("DIE");
         Destroy(this);
