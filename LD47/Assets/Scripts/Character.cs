@@ -78,8 +78,11 @@ public class Character : MonoBehaviour
         {
             curCell.MyState = Cell.State.Deadly;
         }
-        
-        curCell = curCell.NeighborCells[MyDirection];
+
+        if (curCell.IsExist(MyDirection) && curCell.IsAvailable(MyDirection))
+        {
+            curCell = curCell.NeighborCells[MyDirection];
+        }
     }
 
     void Mine()
