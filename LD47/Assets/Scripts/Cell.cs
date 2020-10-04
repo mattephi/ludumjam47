@@ -118,6 +118,7 @@ public class Cell : MonoBehaviour
         }
         else
         {
+            print("Died");
             _curHp = 0f;
             Die(character);
         }
@@ -254,7 +255,7 @@ public class Cell : MonoBehaviour
     }
 
 
-private void OnCollisionEnter2D(Collision2D other1)
+    private void OnCollisionEnter2D(Collision2D other1)
     {
         if (other1.gameObject.CompareTag("Player") && myState == State.Deadly)
         {

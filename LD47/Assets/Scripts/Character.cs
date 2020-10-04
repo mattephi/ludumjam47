@@ -13,8 +13,8 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 0.01f;
-    [SerializeField] private float movingSpeed = 0.01f;
+    [SerializeField] private float minDamage = 50f;
+    [SerializeField] private float movingSpeed = 2f;
 
     public float curDamage;
     private bool iFixit = false;
@@ -120,11 +120,16 @@ public class Character : MonoBehaviour
 
         _isValidated = true;
         curCell = newCell;
-        myState = State.Moving;
+        myState = State.Mining;
     }
 
     private void Move()
     {
+        print(curCell.transform.position);
+        if (curCell.myState != Cell.State.Transition)
+        {
+            return;
+        }
         //print(myDirection);
         transform.position = Vector3.MoveTowards(transform.position, curCell.reachMe, Time.deltaTime * movingSpeed);
     }
@@ -158,7 +163,7 @@ public class Character : MonoBehaviour
                     curCell.GetDamage(this, curDamage);
                     _lastDamage = Time.realtimeSinceStartup;
                 }
-                else if(curCell.myState == Cell.State.Transition)
+                else if(curCell.myState == Cell.State.Transition || curCell.myState == Cell.State.StartingPoint)
                 {
                     myState = State.Moving;
                 }
