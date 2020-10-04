@@ -60,7 +60,7 @@ public class Generator : MonoBehaviour
                 _cellMatrix[i, j].Init(Cell.State.Surface);
                 var dx = _cellMatrix[0, j].GetComponent<Renderer>().bounds.size.x;
                 _cellMatrix[i, j].reachMe = spawnPoint;
-                Debug.Log("" + i + " " + j + " " + _cellMatrix[i, j]);
+                //Debug.Log("" + i + " " + j + " " + _cellMatrix[i, j]);
             }
         }
 

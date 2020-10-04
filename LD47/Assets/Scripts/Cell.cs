@@ -52,7 +52,7 @@ public class Cell : MonoBehaviour
     public Resource myResource;
     public void Init(State myState)
     {
-        _curHp = MINCellHp;
+        _curHp = maxCellHp;
         this.myState = myState;
         SetSprite(this.myState);
     }
@@ -111,7 +111,7 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character, float damage)
     {
-        print(_curHp);
+        print("Cur HP: " + _curHp);
         if (_curHp - damage > 0)
         {
             _curHp -= damage;
@@ -235,16 +235,6 @@ public class Cell : MonoBehaviour
         }
         SetSprite(State.Transition);
         drawBorders();
-<<<<<<< HEAD
-        foreach (var item in NeighborCells)
-        {
-            //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
-            if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
-            {
-                item.Value.drawBorders();
-            }
-        }
-=======
 
         foreach (var item in NeighborCells)
         {

@@ -47,7 +47,7 @@ public class Character : MonoBehaviour
 
     private bool _isValidated = false;
     private float _lastDamage = 0f;
-    private float DamageDeltaTime = 2f;
+    private float DamageDeltaTime = 0.01f;
 
     public Character(bool isValidated)
     {
@@ -125,7 +125,7 @@ public class Character : MonoBehaviour
 
     private void Move()
     {
-        print(myDirection);
+        //print(myDirection);
         transform.position = Vector3.MoveTowards(transform.position, curCell.reachMe, Time.deltaTime * movingSpeed);
     }
 
