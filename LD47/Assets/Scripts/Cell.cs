@@ -12,7 +12,8 @@ public class Cell : MonoBehaviour
     public Sprite[] borderSprites;
     //[SerializeField]private Dictionary<State, Sprite> _stateSprites = new Dictionary<State, Sprite>();
 
-    [SerializeField] private Sprite surfaceSprite;
+    public Vector3 reachMe;
+    public Sprite surfaceSprite;
     [SerializeField] private Sprite transitionSprite;
     [SerializeField] private Sprite deadlySprite;
     
@@ -51,6 +52,7 @@ public class Cell : MonoBehaviour
     public Resource myResource;
     public void Init(State myState)
     {
+        _curHp = MINCellHp;
         this.myState = myState;
         SetSprite(this.myState);
     }

@@ -17,6 +17,7 @@ public class Character : MonoBehaviour
     [SerializeField] private float movingSpeed = 0.01f;
 
     public float curDamage;
+    private bool iFixit = false;
     
     
     public Cell.Direction myDirection;
@@ -116,7 +117,7 @@ public class Character : MonoBehaviour
     private void Move()
     {
         print(myDirection);
-        transform.position = Vector3.MoveTowards(transform.position, curCell.transform.position, Time.deltaTime * movingSpeed);
+        transform.position = Vector3.MoveTowards(transform.position, curCell.reachMe, Time.deltaTime * movingSpeed);
     }
 
     // Update is called once per frame
@@ -125,7 +126,7 @@ public class Character : MonoBehaviour
         switch (myState)
         {
             case State.Moving:
-                if (Vector3.Distance(curCell.transform.position, transform.position) > 1e-3)
+                if (Vector3.Distance(curCell.reachMe, transform.position) > 1e-3)
                 {
                     Move();
                 }
