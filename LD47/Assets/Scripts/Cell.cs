@@ -111,14 +111,12 @@ public class Cell : MonoBehaviour
 
     public void GetDamage(Character character, float damage)
     {
-        print("Cur HP: " + _curHp);
         if (_curHp - damage > 0)
         {
             _curHp -= damage;
         }
         else
         {
-            print("Died");
             _curHp = 0f;
             Die(character);
         }

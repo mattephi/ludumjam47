@@ -13,7 +13,7 @@ public class Character : MonoBehaviour
         get => minDamage;
         private set => minDamage = value;
     }
-    [SerializeField] private float minDamage = 50f;
+    [SerializeField] private float minDamage = 10000f;
     [SerializeField] private float movingSpeed = 2f;
 
     public float curDamage;
@@ -125,7 +125,6 @@ public class Character : MonoBehaviour
 
     private void Move()
     {
-        print(curCell.transform.position);
         if (curCell.myState != Cell.State.Transition)
         {
             return;
