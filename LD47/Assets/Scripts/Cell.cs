@@ -161,10 +161,10 @@ public class Cell : MonoBehaviour
         new borderCheckElem { mask =  0b_0001_1100, controlVal = 0b_0000_1000}, //a5
         new borderCheckElem { mask =  0b_0000_0111, controlVal = 0b_0000_0010}, //a7
                 
-        new borderCheckElem { mask =  0b_0101_0000, controlVal = 0b_0101_0000}, //c24
-        new borderCheckElem { mask =  0b_0100_0001, controlVal = 0b_0100_0001}, //c28
-        new borderCheckElem { mask =  0b_0001_0100, controlVal = 0b_0001_0100}, //c46
-        new borderCheckElem { mask =  0b_0000_0101, controlVal = 0b_0000_0101}, //c68
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0000}, //c24
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0100_0001}, //c28
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0001_0100}, //c46
+        new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0000_0101}, //c68
 
         new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0100}, //d246
         new borderCheckElem { mask =  0b_0101_0101, controlVal = 0b_0101_0001}, //d248
@@ -178,44 +178,56 @@ public class Cell : MonoBehaviour
     };
 
     public GameObject[] borders = new GameObject[8];
-    public int bordersCount = 0;
+    public int bordersCount;
 
-    void DrawBorders()
+    void drawBorders()
     {
-        foreach (var item in borders)
+        foreach(var item in borders)
         {
             Destroy(item);
         }
-
         bordersCount = 0;
-        int iIdentifier = 0;
+        int i_identifier = 0;
         foreach (KeyValuePair<Direction, Cell> item in NeighborCells)
         {
-            //UnityEngine.Debug.Log(item.Value.myState);
-            if (item.Value.myState == State.Resource || item.Value.myState == State.Surface ||
-                item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
-                iIdentifier += 1 << (7 - getNeighbourIndex(item.Key));
+            UnityEngine.Debug.Log(item.Value.myState);
+            if (item.Value.myState == State.Resource || item.Value.myState == State.Surface || item.Value.myState == State.Bonus || item.Value.myState == State.StartingPoint)
+                i_identifier += 1 << (7 - getNeighbourIndex(item.Key));
         }
-
         this.gameObject.GetComponent<SpriteRenderer>().color = new Color(255, 255, 255, 0);
-        //UnityEngine.Debug.Log(iIdentifier);
-
-        foreach (var item in borderCheck.Select((value, i) => new {i, value}))
+        UnityEngine.Debug.Log(i_identifier);
+       
+        foreach(var item in borderCheck.Select((value, i) => new { i, value }))
         {
-            if ((iIdentifier & item.value.mask) == item.value.controlVal)
+            if ((i_identifier & item.value.mask) == item.value.controlVal)
             {
                 borders[bordersCount] = new GameObject();
                 borders[bordersCount].transform.parent = gameObject.transform;
-                borders[bordersCount].transform.position = transform.position;
+                borders[bordersCount].transform.position = gameObject.transform.position;
                 borders[bordersCount].AddComponent<SpriteRenderer>().sprite = borderSprites[item.i];
-                //UnityEngine.Debug.Log(borders[bordersCount]);
+                UnityEngine.Debug.Log(borders[bordersCount]);
                 bordersCount++;
             }
         }
     }
 
-    void Die(Character character) // Debug purposes
+    void Die() // Debug purposes
+        drawBorders();
+        foreach (var item in NeighborCells)
         {
+            UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
+            if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
+            {
+                item.Value.drawBorders();
+            }
+        }
+    }
+
+    void OnMouseOver() // Debug purposes
+    {
+        if (Input.GetKey(KeyCode.Mouse0))
+            Die();
+    }
             switch (myState)
             {
                 //break / return to the player
@@ -232,21 +244,6 @@ public class Cell : MonoBehaviour
             }
             SetSprite(State.Transition);
 
-            DrawBorders();
-            foreach (var item in NeighborCells)
-            {
-                //UnityEngine.Debug.Log("Obj: " + item.Value.gameObject + "\nState: " + item.Value.myState);
-                if (item.Value.myState == State.Transition || item.Value.myState == State.Deadly)
-                {
-                    item.Value.DrawBorders();
-                }
-            }
-        }
-
-        void OnMouseDown() // Debug purposes
-    {
-        Die(null);
-    }
 
     private void OnCollisionEnter2D(Collision2D other1)
     {
